@@ -1,0 +1,6 @@
+---
+
+- name: swanctl restart
+  systemd:
+    name: strongswan-swanctl.service
+    state: restarted

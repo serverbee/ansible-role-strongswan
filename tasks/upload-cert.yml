@@ -1,0 +1,9 @@
+---
+
+- name: Copy certificate from localhost to client
+  copy:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+  with_items:
+    - { src: "{{ playbook_dir }}/certs/strongswanCert.pem", dest: "{{ strongswan_swanctl_config_dir }}/x509ca/strongswanCert.pem" }
+    - { src: "{{ playbook_dir }}/certs/Cert.pem", dest: "{{ strongswan_swanctl_config_dir }}/x509/Cert.pem" }

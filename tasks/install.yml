@@ -1,0 +1,11 @@
+---
+
+- name: Enable EPEL rpm repo
+  yum:
+    name: epel-release
+    state: present
+
+- name: Install Strongswan package
+  yum:
+    name: strongswan
+    state: present

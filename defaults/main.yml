@@ -1,0 +1,13 @@
+---
+
+strongswan_swanctl_config_dir: /etc/strongswan/swanctl
+strongswan_swanctl_config_file:  "{{ strongswan_swanctl_config_dir }}/swanctl.conf"
+
+strongswan_letsencrypt_enable: true
+strongswan_firewalld_enable: true
+strongswan_client: false
+
+strongswan_download_cert: false
+strongswan_upload_cert: false
+
+strongswan_swanctl_settings: {}

@@ -1,0 +1,15 @@
+---
+
+- include: install.yml
+  tags: strongswan-install
+
+- include: download-cert.yml
+  tags: strongswan-download-cert 
+  when: strongswan_client and strongswan_download_cert
+
+- include: upload-cert.yml
+  tags: strongswan-upload-cert
+  when: strongswan_client and strongswan_upload_cert
+
+- include: config.yml
+  tags: strongswan-config

@@ -1,0 +1,57 @@
+---
+
+- block:
+  - name: Find a name of letsencrypt domain certificate directory
+    find:
+      paths: /etc/letsencrypt/live
+      recurse: no
+      file_type: directory
+    register: letsencrypt_found_dir
+
+  - set_fact:
+      letsencrypt_domain_dir: "{{ letsencrypt_found_dir.files[0].path }}"
+
+  - name: Check if letsencrypt certificate already exists
+    stat:
+      path: "{{ letsencrypt_domain_dir }}/cert.pem"
+    register: letsencrypt_cert
+   
+  - name: Create symlinks for letsencrypt certificate
+    file:
+      src: "{{ item.src }}"
+      dest: "{{ item.dest }}"
+      state: link
+    with_items:
+      - { src: "{{ letsencrypt_domain_dir }}/chain.pem", dest: "{{ strongswan_swanctl_config_dir }}/x509ca/strongswanCert.pem" }
+      - { src: "{{ letsencrypt_domain_dir }}/fullchain.pem", dest: "{{ strongswan_swanctl_config_dir }}/x509/Cert.pem" }
+      - { src: "{{ letsencrypt_domain_dir }}/privkey.pem", dest: "{{ strongswan_swanctl_config_dir }}/private/Key.pem" }
+    when: letsencrypt_cert.stat.exists
+
+  - fail:
+      msg: "Error: letsencrypt certificate doesn't exists. Please check your certificate configuration !"
+    when: not letsencrypt_cert.stat.exists
+
+  when: strongswan_letsencrypt_enable
+
+- name: Configure Strongswan swanctl.conf
+  template:
+    src: etc/strongswan/swanctl/swanctl.conf.j2
+    dest: "{{ strongswan_swanctl_config_file }}"
+    owner: root
+    group: root
+    mode: 0644
+  notify: swanctl restart
+
+- name: Ensure Strongswan service is enabled and started
+  systemd:
+    name: strongswan-swanctl.service
+    state: started
+    enabled: yes
+
+# It's workaround until direct option will be added to firewalld ansible module
+# https://github.com/ansible/ansible/pull/49514
+- name: Skip NAT for ipsec packets with a matching IPsec policy
+  shell: |
+    /usr/sbin/iptables -t nat -D POSTROUTING -m policy --pol ipsec --dir out -j ACCEPT
+    /usr/sbin/iptables -t nat -I POSTROUTING -m policy --pol ipsec --dir out -j ACCEPT
+  when: not strongswan_client
