@@ -130,7 +130,7 @@ strongswan_swanctl_settings:
   connections:
     home:
       remote_addrs: moon.strongswan.org
-      local_addrs: 192.168.2.1
+      local_addrs: 192.168.10.1
       local:
         auth: eap
         eap_id: carol
@@ -139,7 +139,7 @@ strongswan_swanctl_settings:
         id: moon.strongswan.org
       children:
         home:
-          remote_ts: 192.168.10.0/24
+          remote_ts: 192.168.2.0/24
           #updown: "/usr/libexec/strongswan/_updown iptables"
           start_action: start
       version: 2
