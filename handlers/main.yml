@@ -1,5 +1,8 @@
 ---
 
+- name: reboot
+  import_tasks: reboot.yml
+
 - name: swanctl restart
   systemd:
     name: strongswan-swanctl.service

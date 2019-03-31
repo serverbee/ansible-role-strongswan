@@ -23,7 +23,6 @@ This role uses a [strongswan.conf-style syntax](https://wiki.strongswan.org/proj
  - geerlingguy.repo-epel
  - geerlingguy.certbot
  - shhirose.firewalld
- - linux-system-roles.selinux
 
 #### Example
 
@@ -83,10 +82,6 @@ certbot_certs:
 
 certbot_create_standalone_stop_services: []
 
-# Disable SELinux
-selinux_policy: targeted
-selinux_state: disabled
-
 
 # Set StrongSwan swanctl configuration
 strongswan_swanctl_settings:
@@ -116,10 +111,6 @@ strongswan_swanctl_settings:
 
 Host vars for carol.strongswan.org:
 ```yaml
-# Disable SELinux
-selinux_policy: targeted
-selinux_state: disabled
-
 # Set StrongSwan client only options
 strongswan_client: true
 strongswan_letsencrypt_enable: false

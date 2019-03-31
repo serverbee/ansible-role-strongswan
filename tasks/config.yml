@@ -1,5 +1,12 @@
 ---
 
+- name: Change to permissive value for SELinux
+  selinux:
+    policy: targeted
+    state: permissive
+  notify:
+    - reboot
+
 - block:
   - name: Find a name of letsencrypt domain certificate directory
     find:
