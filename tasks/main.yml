@@ -1,5 +1,17 @@
 ---
 
+- set_fact: Debian | strongswan-swanctl config directory
+    strongswan_swanctl_config_dir: /etc/swanctl
+  when: ansible_facts['os_family'] == "Debian"
+  
+- set_fact: RedHat | strongswan-swanctl config directory
+    strongswan_swanctl_config_dir: /etc/strongswan/swanctl
+  when: ansible_facts['os_family'] == "RedHat"
+
+- set_fact: strongswan-swanctl config file
+    strongswan_swanctl_config_file:  "{{ strongswan_swanctl_config_dir }}/swanctl.conf"
+  when: strongswan_swanctl_config_dir is defined
+
 - include: install.yml
   tags: strongswan-install
 
