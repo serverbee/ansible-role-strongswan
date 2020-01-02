@@ -1,7 +1,6 @@
 ---
 
 - block:
-
   - name: selinux | set permissive value for ipsec_mgmt_t
     selinux_permissive:
       name: ipsec_mgmt_t
@@ -13,6 +12,15 @@
       permissive: true
       
   when: ansible_facts['os_family'] == "RedHat"
+
+- block:
+  - name: apparmor | apply charon fix
+    shell: apparmor_parser -R /etc/apparmor.d/usr.lib.ipsec.charon
+
+  - name: apparmor | apply stroke fix
+    shell: apparmor_parser -R /etc/apparmor.d/usr.lib.ipsec.stroke
+    
+  when: ansible_facts['os_family'] == "Debian"
 
 - block:
   - name: Find a name of letsencrypt domain certificate directory
