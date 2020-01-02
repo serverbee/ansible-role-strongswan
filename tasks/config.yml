@@ -1,11 +1,18 @@
 ---
 
-- name: Change to permissive value for SELinux
-  selinux:
-    policy: targeted
-    state: permissive
-  notify:
-    - reboot
+- block:
+
+  - name: selinux | set permissive value for ipsec_mgmt_t
+    selinux_permissive:
+      name: ipsec_mgmt_t
+      permissive: true
+
+  - name: selinux | set permissive value for ipsec_t
+    selinux_permissive:
+      name: ipsec_t
+      permissive: true
+      
+  when: ansible_facts['os_family'] == "RedHat"
 
 - block:
   - name: Find a name of letsencrypt domain certificate directory
