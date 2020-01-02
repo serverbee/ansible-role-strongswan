@@ -63,10 +63,19 @@
     group: root
     mode: 0644
   notify: swanctl restart
+  
+- name: Configure forwarding sysctl
+  template:
+    src: sysctl-strongswan.j2
+    dest: "/etc/sysctl.d/60-strongswan.conf"
+    owner: root
+    group: root
+    mode: 0644
+  notify: sysctl -p
 
 - name: Ensure Strongswan service is enabled and started
   systemd:
-    name: strongswan-swanctl.service
+    name: "{{ strongswan_swanctl_svc }}"
     state: started
     enabled: yes
 
