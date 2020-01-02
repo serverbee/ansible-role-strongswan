@@ -57,7 +57,7 @@
 
 - name: Configure Strongswan swanctl.conf
   template:
-    src: etc/strongswan/swanctl/swanctl.conf.j2
+    src: swanctl.conf.j2
     dest: "{{ strongswan_swanctl_config_file }}"
     owner: root
     group: root
