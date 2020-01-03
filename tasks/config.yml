@@ -78,6 +78,7 @@
     name: "{{ strongswan_swanctl_svc }}"
     state: started
     enabled: yes
+    daemon_reload: yes
 
 # It's workaround until direct option will be added to firewalld ansible module
 # https://github.com/ansible/ansible/pull/49514
