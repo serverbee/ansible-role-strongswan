@@ -21,7 +21,7 @@ strongswan_settings:
       creds: /usr/sbin/swanctl --load-creds
       conns: /usr/sbin/swanctl --load-conns
       pools: /usr/sbin/swanctl --load-pools
-    plugins:
-      inc: "include strongswan.d/charon/*.conf"
+#    plugins:
+#      inc: "include strongswan.d/charon/*.conf"
 
 iptables_nat_fix: false
