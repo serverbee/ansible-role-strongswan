@@ -55,6 +55,14 @@
 
   when: strongswan_letsencrypt_enable
 
+- name: Configure Strongswan strongswan.conf
+  template:
+    src: strongswan.conf.j2
+    dest: "{{ strongswan_conf_file }}"
+    owner: root
+    group: root
+    mode: 0644
+
 - name: Configure Strongswan swanctl.conf
   template:
     src: swanctl.conf.j2
