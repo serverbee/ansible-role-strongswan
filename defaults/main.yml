@@ -8,3 +8,5 @@ strongswan_download_cert: false
 strongswan_upload_cert: false
 
 strongswan_swanctl_settings: {}
+
+iptables_nat_fix: false
