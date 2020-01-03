@@ -66,7 +66,7 @@
   
 - name: Configure forwarding sysctl
   template:
-    src: sysctl-strongswan.j2
+    src: sysctl-conf.j2
     dest: "/etc/sysctl.d/60-strongswan.conf"
     owner: root
     group: root
