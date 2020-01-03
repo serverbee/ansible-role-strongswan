@@ -9,4 +9,19 @@ strongswan_upload_cert: false
 
 strongswan_swanctl_settings: {}
 
+strongswan_settings:
+  swanctl:
+    load: pem pkcs1 x509 revocation constraints pubkey openssl random
+  charon:
+    load_modular: yes
+    fragment_size: 1400
+    dns1: 1.1.1.1
+    dns2: 9.9.9.9
+    start-scripts:
+      creds: /usr/sbin/swanctl --load-creds
+      conns: /usr/sbin/swanctl --load-conns
+      pools: /usr/sbin/swanctl --load-pools
+    plugins:
+      inc: "include strongswan.d/charon/*.conf"
+
 iptables_nat_fix: false
