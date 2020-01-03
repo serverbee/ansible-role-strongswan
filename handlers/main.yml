@@ -7,3 +7,6 @@
   systemd:
     name: "{{ strongswan_swanctl_svc }}"
     state: restarted
+
+- name: sysctl reload
+  shell: sysctl -p
