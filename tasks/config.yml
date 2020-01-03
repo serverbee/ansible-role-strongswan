@@ -86,4 +86,4 @@
   shell: |
     /usr/sbin/iptables -t nat -D POSTROUTING -m policy --pol ipsec --dir out -j ACCEPT
     /usr/sbin/iptables -t nat -I POSTROUTING -m policy --pol ipsec --dir out -j ACCEPT
-  when: not strongswan_client
+  when: (not strongswan_client) and iptables_nat_fix
