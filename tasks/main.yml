@@ -3,11 +3,13 @@
 - set_fact: Debian | strongswan-swanctl config directory
     strongswan_swanctl_config_dir: /etc/swanctl
     strongswan_swanctl_svc: strongswan-swanctl.service
+    strongswan_conf: "/etc/strongswan.conf"
   when: ansible_facts['os_family'] == "Debian"
   
 - set_fact: RedHat | strongswan-swanctl config directory
     strongswan_swanctl_config_dir: /etc/strongswan/swanctl
     strongswan_swanctl_svc: strongswan.service
+    strongswan_conf: "/etc/strongswan/strongswan.conf"
   when: ansible_facts['os_family'] == "RedHat"
 
 - set_fact: strongswan-swanctl config file
