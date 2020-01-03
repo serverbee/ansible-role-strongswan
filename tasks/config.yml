@@ -71,7 +71,7 @@
     owner: root
     group: root
     mode: 0644
-  notify: sysctl -p
+  notify: sysctl reload
 
 - name: Ensure Strongswan service is enabled and started
   systemd:
