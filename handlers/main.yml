@@ -5,5 +5,5 @@
 
 - name: swanctl restart
   systemd:
-    name: strongswan-swanctl.service
+    name: "{{ strongswan_swanctl_svc }}"
     state: restarted
