@@ -16,6 +16,6 @@ install:
   - "{ echo '[defaults]'; echo 'roles_path = ../'; } >> ansible.cfg"
 
   # Install Ansible Galaxy Roles
-  - "ansible-galaxy install -r requirements.txt --force"
+  - "ansible-galaxy install -r requirements.yml --force"
 script:
   - molecule test --all
