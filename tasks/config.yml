@@ -30,7 +30,7 @@
       file_type: directory
     register: letsencrypt_found_dir
 
-  - name: set letsencrypt facts 
+  - name: set letsencrypt facts
     set_fact:
       letsencrypt_domain_dir: "{{ letsencrypt_found_dir.files[0].path }}"
 
