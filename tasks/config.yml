@@ -10,16 +10,16 @@
     selinux_permissive:
       name: ipsec_t
       permissive: true
-      
+
   when: ansible_facts['os_family'] == "RedHat"
 
 - block:
   - name: apparmor | apply charon fix
-    shell: apparmor_parser -R /etc/apparmor.d/usr.lib.ipsec.charon
+    command: apparmor_parser -R /etc/apparmor.d/usr.lib.ipsec.charon
 
   - name: apparmor | apply stroke fix
-    shell: apparmor_parser -R /etc/apparmor.d/usr.lib.ipsec.stroke
-    
+    command: apparmor_parser -R /etc/apparmor.d/usr.lib.ipsec.stroke
+
   when: ansible_facts['os_family'] == "Debian"
 
 - block:
@@ -30,14 +30,15 @@
       file_type: directory
     register: letsencrypt_found_dir
 
-  - set_fact:
+  - name: set letsencrypt facts 
+    set_fact:
       letsencrypt_domain_dir: "{{ letsencrypt_found_dir.files[0].path }}"
 
   - name: Check if letsencrypt certificate already exists
     stat:
       path: "{{ letsencrypt_domain_dir }}/cert.pem"
     register: letsencrypt_cert
-   
+
   - name: Create symlinks for letsencrypt certificate
     file:
       src: "{{ item.src }}"
@@ -49,7 +50,8 @@
       - { src: "{{ letsencrypt_domain_dir }}/privkey.pem", dest: "{{ strongswan_swanctl_config_dir }}/private/Key.pem" }
     when: letsencrypt_cert.stat.exists
 
-  - fail:
+  - name: fail due to missing letsencrypt certificate
+    fail:
       msg: "Error: letsencrypt certificate doesn't exists. Please check your certificate configuration !"
     when: not letsencrypt_cert.stat.exists
 
