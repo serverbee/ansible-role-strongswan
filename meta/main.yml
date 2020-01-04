@@ -2,7 +2,7 @@
 
 dependencies:
   - { role: geerlingguy.repo-epel, when: strongswan_letsencrypt_enable and not strongswan_client }
-  - { role: shhirose.firewalld, when: strongswan_firewalld_enable and not strongswan_client }
+#  - { role: shhirose.firewalld, when: strongswan_firewalld_enable and not strongswan_client }
   - { role: geerlingguy.certbot, when: strongswan_letsencrypt_enable and not strongswan_client }
 
 galaxy_info:
