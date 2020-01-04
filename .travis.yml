@@ -9,5 +9,13 @@ before_install:
   - docker --version
 install:
   - pip install molecule docker==4.1.0
+  # Install Ansible.
+  - "pip install ansible"
+
+  # Add ansible.cfg to pick up roles path.
+  - "{ echo '[defaults]'; echo 'roles_path = ../'; } >> ansible.cfg"
+
+  # Install Ansible Galaxy Roles
+  - "ansible-galaxy install -r requirements.txt --force"
 script:
   - molecule test --all
