@@ -6,7 +6,7 @@
     strongswan_swanctl_svc: strongswan-swanctl.service
     strongswan_conf_file: "/etc/strongswan.d/10-strongswan.conf"
   when: ansible_facts['os_family'] == "Debian"
-  
+
 - name: RedHat | strongswan-swanctl config directory
   set_fact:
     strongswan_swanctl_config_dir: /etc/strongswan/swanctl
@@ -23,7 +23,7 @@
   tags: strongswan-install
 
 - include: download-cert.yml
-  tags: strongswan-download-cert 
+  tags: strongswan-download-cert
   when: strongswan_client and strongswan_download_cert
 
 - include: upload-cert.yml
