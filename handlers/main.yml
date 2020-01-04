@@ -9,4 +9,4 @@
     state: restarted
 
 - name: sysctl reload
-  shell: sysctl -p
+  command: sysctl -p
