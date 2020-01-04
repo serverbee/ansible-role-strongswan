@@ -4,7 +4,7 @@
     yum:
       name: epel-release
       state: present
-  
+
   - name: Redhat | Install Strongswan package
     yum:
       name: strongswan
@@ -16,7 +16,7 @@
     apt:
       pkg:
       - strongswan
-      - strongswan-swanctl 
+      - strongswan-swanctl
       - apparmor-utils
       - debconf-utils
   when: ansible_facts['os_family'] == "Debian"
