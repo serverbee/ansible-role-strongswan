@@ -1,1 +1,3 @@
---
+geerlingguy.repo-epel
+geerlingguy.certbot
+shhirose.firewalld
