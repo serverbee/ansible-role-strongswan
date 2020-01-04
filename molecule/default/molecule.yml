@@ -42,10 +42,4 @@ provisioner:
   inventory:
     group_vars:
       all:
-        zsh_user: root
-        zsh_mc_solarized_skin: yes
-        zsh_antigen_bundles_extras:
-          - { name: test/in-list, when: true }
-          - { name: test/not-in-list, when: false }
-          - { name: test/command-exists, command: zsh }
-          - { name: test/command-not-exists, command: not-exists-commanddd }
+#        zsh_user: root
