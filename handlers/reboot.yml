@@ -12,7 +12,7 @@
     port: 22
     state: stopped
   delegate_to: localhost
-  sudo: False
+#  sudo: False
 
 - name: wait for SSH port up
   wait_for:
@@ -21,4 +21,4 @@
     state: started
     delay: 30
   delegate_to: localhost
-  sudo: False
+#  sudo: False
