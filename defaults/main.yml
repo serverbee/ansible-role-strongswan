@@ -1,7 +1,7 @@
 ---
 
 strongswan_letsencrypt_enable: true
-strongswan_firewalld_enable: true
+strongswan_firewalld_enable: false
 strongswan_client: false
 
 strongswan_download_cert: false
