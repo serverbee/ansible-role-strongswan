@@ -1,18 +1,21 @@
 ---
 
-- set_fact: Debian | strongswan-swanctl config directory
+- name: Debian | strongswan-swanctl config directory
+  set_fact:
     strongswan_swanctl_config_dir: /etc/swanctl
     strongswan_swanctl_svc: strongswan-swanctl.service
     strongswan_conf_file: "/etc/strongswan.d/10-strongswan.conf"
   when: ansible_facts['os_family'] == "Debian"
   
-- set_fact: RedHat | strongswan-swanctl config directory
+- name: RedHat | strongswan-swanctl config directory
+  set_fact:
     strongswan_swanctl_config_dir: /etc/strongswan/swanctl
     strongswan_swanctl_svc: strongswan.service
     strongswan_conf_file: "/etc/strongswan/strongswan.d/10-strongswan.conf"
   when: ansible_facts['os_family'] == "RedHat"
 
-- set_fact: strongswan-swanctl config file
+- name: strongswan-swanctl config file
+  set_fact:
     strongswan_swanctl_config_file:  "{{ strongswan_swanctl_config_dir }}/swanctl.conf"
   when: strongswan_swanctl_config_dir is defined
 
