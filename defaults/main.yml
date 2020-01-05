@@ -22,5 +22,6 @@ strongswan_settings:
       conns: /usr/sbin/swanctl --load-conns
       pools: /usr/sbin/swanctl --load-pools
 
+sysctl_conf_file: "/etc/sysctl.d/60-strongswan.conf"
 iptables_nat_fix: false
 skip_apparmor_selinux: true
