@@ -35,11 +35,13 @@
   - name: set letsencrypt facts
     set_fact:
       letsencrypt_domain_dir: "{{ letsencrypt_found_dir.files[0].path }}"
+    when: letsencrypt_found_dir is defined
 
   - name: Check if letsencrypt certificate already exists
     stat:
       path: "{{ letsencrypt_domain_dir }}/cert.pem"
     register: letsencrypt_cert
+    when: letsencrypt_found_dir is defined
 
   - name: Create symlinks for letsencrypt certificate
     file:
@@ -50,12 +52,12 @@
       - { src: "{{ letsencrypt_domain_dir }}/chain.pem", dest: "{{ strongswan_swanctl_config_dir }}/x509ca/strongswanCert.pem" }
       - { src: "{{ letsencrypt_domain_dir }}/fullchain.pem", dest: "{{ strongswan_swanctl_config_dir }}/x509/Cert.pem" }
       - { src: "{{ letsencrypt_domain_dir }}/privkey.pem", dest: "{{ strongswan_swanctl_config_dir }}/private/Key.pem" }
-    when: letsencrypt_cert.stat.exists
+    when: letsencrypt_cert.stat.exists or letsencrypt_cert is defined
 
   - name: fail due to missing letsencrypt certificate
     fail:
       msg: "Error: letsencrypt certificate doesn't exists. Please check your certificate configuration !"
-    when: not letsencrypt_cert.stat.exists
+    when: not letsencrypt_cert.stat.exists  or letsencrypt_cert is defined
 
   when: strongswan_letsencrypt_enable
 
