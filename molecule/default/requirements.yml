@@ -1,4 +1,5 @@
 ---
+- src: ansible-role-strongswan-swanctl 
 - src: geerlingguy.repo-epel
 - src: geerlingguy.certbot
 - src: shhirose.firewalld
