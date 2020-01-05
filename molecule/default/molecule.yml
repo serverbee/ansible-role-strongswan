@@ -10,7 +10,7 @@ lint:
 #    config-file: molecule/default/yaml-lint.yml
 platforms:
   - name: instance
-    image: "geerlingguy/docker-${MOLECULE_DISTRO:-centos7}-ansible:latest"
+    image: "hybridadmin/docker-${MOLECULE_DISTRO:-centos7}-ansible:latest"
     #image: centos:7
     command: ${MOLECULE_DOCKER_COMMAND:-""}
     volumes:
