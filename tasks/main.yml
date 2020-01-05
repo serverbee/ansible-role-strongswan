@@ -3,7 +3,7 @@
 - name: Debian | strongswan-swanctl config directory
   set_fact:
     strongswan_swanctl_config_dir: /etc/swanctl
-    strongswan_swanctl_svc: strongswan-swanctl.service
+    strongswan_swanctl_svc: strongswan.service
     strongswan_conf_file: "/etc/strongswan.d/10-strongswan.conf"
   when: ansible_facts['os_family'] == "Debian"
 
