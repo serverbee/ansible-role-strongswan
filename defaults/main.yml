@@ -23,3 +23,4 @@ strongswan_settings:
       pools: /usr/sbin/swanctl --load-pools
 
 iptables_nat_fix: false
+skip_apparmor_selinux: true
