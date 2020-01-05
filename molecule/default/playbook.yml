@@ -2,6 +2,7 @@
 - name: Converge
   hosts: all
   become: true
+  no_log: result.rc == 0
 
   vars:
     certbot_auto_renew_user: root
