@@ -21,7 +21,7 @@ install:
   - "{ echo '[defaults]'; echo 'remote_tmp = /tmp/.ansible-${USER}/tmp'; } >> ansible.cfg"
 
   # Install Ansible Galaxy Roles
-  - "ansible-galaxy install -r $REQUIREMENTS --force"
+ # - "ansible-galaxy install -r $REQUIREMENTS --force"
 
 before_script:
   # Use actual Ansible Galaxy role name for the project directory.
