@@ -2,15 +2,6 @@
 driver:
   name: docker
 platforms:
-  - name: ansible-role-strongswan-swanctl-debian-8
-    image: debian:8
-
-  - name: ansible-role-strongswan-swanctl-ubuntu-1404
-    image: ubuntu:14.04
-
-  - name: ansible-role-strongswan-swanctl-ubuntu-1604
-    image: ubuntu:16.04
-
   - name: ansible-role-strongswan-swanctl-ubuntu-1804
     image: ubuntu:18.04
 
