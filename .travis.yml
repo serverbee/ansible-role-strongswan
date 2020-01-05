@@ -6,9 +6,8 @@ env:
   global:
     - ROLE_NAME: ansible-role-strongswan-swanctl
   matrix:
-    - MOLECULE_DISTRO: centos8
+#    - MOLECULE_DISTRO: centos8
     - MOLECULE_DISTRO: centos7
-    - MOLECULE_DISTRO: centos6
       MOLECULE_PLAYBOOK: playbook-source-install.yml
     - MOLECULE_DISTRO: ubuntu1804
     - MOLECULE_DISTRO: ubuntu1604
@@ -21,7 +20,7 @@ install:
 before_script:
   # Use actual Ansible Galaxy role name for the project directory.
   - cd ../
-  - mv ansible-role-$ROLE_NAME hybridadmin.$ROLE_NAME
+  - mv $ROLE_NAME hybridadmin.$ROLE_NAME
   - cd hybridadmin.$ROLE_NAME
 
 script:
