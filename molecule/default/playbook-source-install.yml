@@ -22,5 +22,6 @@
       when: ansible_os_family == 'Debian'
 
   roles:
-    - geerlingguy.git
+    - geerlingguy.repo-epel
     - geerlingguy.certbot
+    - shhirose.firewalld
