@@ -16,7 +16,7 @@ services:
 
 before_install:
   - 'sudo docker pull ${distribution}:${version}'
-  - 'sudo docker build --no-cache --rm --file=travis/Dockerfile.${distribution}-${version} --tag=${distribution}-${version}:ansible hybridadmin'
+  - 'sudo docker build --no-cache --rm --file=molecule/default/Dockerfile.${distribution}-${version} --tag=${distribution}-${version}:ansible travis'
 
 script:
   - container_id=$(mktemp)
