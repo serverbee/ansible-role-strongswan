@@ -2,7 +2,7 @@
 sudo: required
 
 env:
-  - ROLE_NAME: ansible-role-strongswan-swanctl    
+#  - ROLE_NAME: ansible-role-strongswan-swanctl    
   - distribution: centos
     version: 7
   - distribution: ubuntu
