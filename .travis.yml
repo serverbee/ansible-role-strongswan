@@ -3,6 +3,7 @@ language: python
 services: docker
 
 env:
+  - MOLECULE_NO_LOG="false"
   global:
     - ROLE_NAME: ansible-role-strongswan-swanctl
   matrix:
