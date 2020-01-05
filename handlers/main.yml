@@ -9,4 +9,4 @@
     state: restarted
 
 - name: sysctl reload
-  command: sysctl -p
+  command: sysctl -p "{{ sysctl_conf_file }}"
