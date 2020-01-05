@@ -11,7 +11,7 @@
     certbot_certs:
      - email: atmchikomo@gmail.com
        domains:
-         - "{{ inventory_hostname }}"
+         - "vpn.chikomo.net"
     
     certbot_create_standalone_stop_services: []
 
