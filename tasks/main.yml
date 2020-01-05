@@ -16,7 +16,7 @@
 
 - name: strongswan-swanctl config file
   set_fact:
-    strongswan_swanctl_config_file:  "{{ strongswan_swanctl_config_dir }}/swanctl.conf"
+    strongswan_swanctl_config_file: "{{ strongswan_swanctl_config_dir }}/swanctl.conf"
   when: strongswan_swanctl_config_dir is defined
 
 - include: install.yml
