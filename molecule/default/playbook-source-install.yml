@@ -23,6 +23,7 @@
       when: ansible_os_family == 'Debian'
 
   roles:
+    - ansible-role-strongswan-swanctl
     - geerlingguy.repo-epel
     - geerlingguy.certbot
     - shhirose.firewalld
