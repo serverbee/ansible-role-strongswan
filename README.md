@@ -1,4 +1,7 @@
 ## StrongSwan role
+[![Build Status](https://travis-ci.org/hybridadmin/ansible-role-strongswan-swanctl.svg?branch=master)](https://travis-ci.org/hybridadmin/ansible-role-strongswan-swanctl)
+
+Tested on Ubuntu 18.04 and CentOS 7.
 
 This role uses a [strongswan.conf-style syntax](https://wiki.strongswan.org/projects/strongswan/wiki/Swanctlconf) (referencing sections, since 5.7.0).
 
