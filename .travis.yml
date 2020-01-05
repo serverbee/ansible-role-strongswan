@@ -18,6 +18,7 @@ before_install:
   - 'sudo docker build --no-cache --rm --file=molecule/default/Dockerfile.${distribution}-${version} --tag=${distribution}-${version}:ansible molecule'
 
 install:
+  - "pip install ansible"
   - "ansible-galaxy install -r requirements.yml --force"
 
 script:
