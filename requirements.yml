@@ -1,3 +1,7 @@
+---
+- src: https://github.com/hybridadmin/ansible-role-strongswan-swanctl
+  version: master
+  name: ansible-role-strongswan-swanctl 
 - src: geerlingguy.repo-epel
 - src: geerlingguy.certbot
-#- src: shhirose.firewalld
+- src: shhirose.firewalld
