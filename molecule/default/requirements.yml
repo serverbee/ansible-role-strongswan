@@ -1,3 +1,4 @@
 ---
-- src: geerlingguy.git
-- src: geerlingguy.nginx
+- src: geerlingguy.repo-epel
+- src: geerlingguy.certbot
+- src: shhirose.firewalld
