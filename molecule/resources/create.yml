@@ -19,7 +19,7 @@
       register: platforms
 
     - name: Discover local Docker images
-      docker_image_info:
+      docker_image_facts:
         name: "molecule_local/{{ item.item.name }}"
       with_items: "{{ platforms.results }}"
       register: docker_images
