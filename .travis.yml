@@ -7,8 +7,8 @@ env:
     version: 7
   - distribution: ubuntu
     version: bionic
-  - distribution: ubuntu
-    version: xenial
+#  - distribution: ubuntu
+#    version: xenial
 
 services:
   - docker
