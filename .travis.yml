@@ -1,7 +1,6 @@
 ---
 sudo: required
 language: python
-python: "2.7"
 
 env:
 #  - ROLE_NAME: ansible-role-strongswan-swanctl    
