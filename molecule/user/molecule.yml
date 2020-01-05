@@ -59,4 +59,5 @@ provisioner:
   inventory:
     group_vars:
       all:
+        certbot_auto_renew: false
 #        zsh_user: testuser
