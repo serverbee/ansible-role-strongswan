@@ -6,6 +6,14 @@
 
   vars:
     certbot_auto_renew_user: root
+    certbot_create_if_missing: yes
+    
+    certbot_certs:
+     - email: atmchikomo@gmail.com
+       domains:
+         - "{{ inventory_hostname }}"
+    
+    certbot_create_standalone_stop_services: []
 
   pre_tasks:
     - name: Update apt cache.
