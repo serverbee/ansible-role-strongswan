@@ -15,7 +15,7 @@
       changed_when: false
 
     - name: Install cron (RedHat).
-      yum: name=cronie state=present
+      package: name=cronie state=present
       when: ansible_os_family == 'RedHat'
 
     - name: Install cron (Debian).
