@@ -15,7 +15,7 @@
       changed_when: false
 
     - name: Install dependencies (RedHat).
-      yum: name={{ item }} state=present
+      package: name={{ item }} state=present
       when: ansible_os_family == 'RedHat'
       with_items:
         - cronie
