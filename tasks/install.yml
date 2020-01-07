@@ -1,22 +1,26 @@
 ---
-- block:
-  - name: Redhat | Enable EPEL rpm repo
-    yum:
+- name: process strongswan pre-requisites       
+  block:
+  - name: Redhat | enable EPEL repo
+    become: true
+    package:
       name: epel-release
       state: present
+    when: ansible_os_family == 'RedHat'
 
-  - name: Redhat | Install Strongswan package
-    yum:
-      name: strongswan
-      state: present
-  when: ansible_facts['os_family'] == "RedHat"
+  - name: Redhat | set required package list
+    set_fact:
+      package_list: ['strongswan']
+    when: ansible_os_family == 'RedHat'
 
-- block:
-  - name: Debian | Install Strongswan package
-    apt:
-      pkg:
-      - strongswan
-      - strongswan-swanctl
-      - apparmor-utils
-      - debconf-utils
-  when: ansible_facts['os_family'] == "Debian"
+  - name: Debian | set required package list
+    set_fact:
+      package_list: ['strongswan','strongswan-swanctl','apparmor-utils','debconf-utils']
+    when: ansible_os_family == 'Debian'
+
+- name: Install required strongswan packages
+  action: >
+    {{ ansible_pkg_mgr }} name={{ package_list }} state=present update_cache=yes
+    vars:
+      packages: "{{ package_list }}"
+  when: package_list is defined
