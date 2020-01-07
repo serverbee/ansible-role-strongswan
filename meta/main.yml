@@ -7,12 +7,17 @@ dependencies:
 
 galaxy_info:
   role_name: strongswan
-  author: mr-yaky
+  author: Tinashe Chikomo
   description: Role to configure StrongSwan IPSec service.
-  company: "ServerBee, SL"
+  company: "N/A"
   license: "license (BSD, MIT)"
   min_ansible_version: 2.4
   platforms:
+    - name: Ubuntu
+      versions:
+#        - trusty
+#        - xenial
+        - bionic
     - name: EL
       versions:
         - 7
