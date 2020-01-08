@@ -31,6 +31,6 @@
 
   roles:
     - hybridadmin.strongswan_swanctl
-    - geerlingguy.repo-epel
+#    - geerlingguy.repo-epel
     - geerlingguy.certbot
 #    - shhirose.firewalld
