@@ -1,0 +1,35 @@
+dependency:
+  name: galaxy
+driver:
+  name: docker
+lint:
+  name: yamllint
+  enabled: false
+#  options:
+#    config-file: molecule/default/yaml-lint.yml
+platforms:
+  - name: ansible-role-exabgp-${MOLECULE_DISTRO}
+    image: "geerlingguy/docker-${MOLECULE_DISTRO:-centos7}-ansible:latest"
+#    dockerfile: files/Dockerfile.${distribution}-${version}
+    command: ${MOLECULE_DOCKER_COMMAND:-""}
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+    privileged: true
+    pre_build_image: true
+provisioner:
+  name: ansible
+  log: true
+  options:
+    v: true
+  lint:
+    name: ansible-lint
+  playbooks:
+    converge: ${MOLECULE_PLAYBOOK:-playbook.yml}
+  config_options:
+    defaults:
+      callback_whitelist: profile_tasks
+      timeout: 60
+verifier:
+  name: goss
+  lint:
+    name: yamllint
