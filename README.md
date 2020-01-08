@@ -11,7 +11,7 @@ This role uses a [strongswan.conf-style syntax](https://wiki.strongswan.org/proj
 
 * `strongswan_swanctl_settings`: [required]: Set all settings for swanctl.conf
 
-##### SrtongSwan (server|clients) settings:
+##### StrongSwan (server|clients) settings:
 
 * `strongswan_swanctl_config_dir`: [optional, default: `/etc/strongswan/swanctl`]: Directory which contains StrongSwan swanctl.conf
 * `strongswan_swanctl_config_file`: [optional, default: `{{ strongswan_swanctl_config_dir }}/swanctl.conf`]: The name of StrongSwan swanctl configuration file
@@ -25,7 +25,6 @@ This role uses a [strongswan.conf-style syntax](https://wiki.strongswan.org/proj
 
  - geerlingguy.repo-epel
  - geerlingguy.certbot
- - shhirose.firewalld
 
 #### Example
 
@@ -44,37 +43,6 @@ carol.strongswan.org
 Host vars for moon.strongswan.org:
 
 ```yaml
-# Allow traffic for Let'sEncrypt certbot and StrongSwan
-shhirose_firewalld:
-  services:
-    - service: http
-      zone: public
-      immediate: yes
-      permanent: True
-      state: enabled
-    - service: ipsec
-      zone: public
-      immediate: yes
-      permanent: True
-      state: enabled
-  ports:
-    - port: "500/udp"
-      zone: public
-      immediate: yes
-      permanent: True
-      state: enabled
-    - port: "4500/udp"
-      zone: public
-      immediate: yes
-      permanent: True
-      state: enabled
-  masquerades:
-    - masquerade: yes
-      zone: public
-      immediate: yes
-      permanent: True
-
-
 # Enable variable bellow only for first certificate generating
 certbot_create_if_missing: yes
 
@@ -173,10 +141,7 @@ StrongSwan clients playbook:
 ```
 
 #### Todo
-
-1. Start using firewalld direct module option after merging pull request: https://github.com/ansible/ansible/pull/49514.
-   It needs for skiping NAT for ipsec packets with a matching IPsec policy.
-2. Remove some dependencies roles to achieve more flexibility.
+1. Remove some dependencies roles to achieve more flexibility.
 
 #### License
 
@@ -184,4 +149,4 @@ BSD 2-clause "Simplified" license
 
 #### Author Information
 
-Vitaly Yakovenko
+Tinashe Chikomo
