@@ -3,33 +3,29 @@ sudo: required
 language: python
 
 env:
-  - distribution: centos
-    version: 7
-  - distribution: ubuntu
-    version: bionic
-#  - distribution: ubuntu
-#    version: xenial
+  global:
+    - ROLE_NAME: strongswan-swanctl
+  matrix:
+#    - MOLECULE_DISTRO: centos8
+    - MOLECULE_DISTRO: centos7
+    - MOLECULE_DISTRO: ubuntu1804
+    - MOLECULE_DISTRO: ubuntu1604
+    - MOLECULE_DISTRO: debian10
+    - MOLECULE_DISTRO: debian9
 
-services:
-  - docker
+services: docker
 
-before_install:
-  - 'sudo docker pull ${distribution}:${version}'
-  - 'sudo docker build --no-cache --rm --file=molecule/default/Dockerfile.${distribution}-${version} --tag=${distribution}-${version}:ansible molecule'
+install:
+  - pip install molecule docker
 
-#install:
-#  - "pip install ansible"
-#  - "ansible-galaxy install -r requirements.yml --force"
+before_script:
+  - cd ../
+  - GALAXY_ROLE_NAME=$(echo "${ROLE_NAME}" | tr '-' '_')
+  - mv ansible-role-$ROLE_NAME hybridadmin.$GALAXY_ROLE_NAME
+  - cd hybridadmin.$GALAXY_ROLE_NAME
 
 script:
-  - container_id=$(mktemp)
-  - 'sudo docker run --detach --privileged -v /sys/fs/cgroup:/sys/fs/cgroup:ro --volume="${PWD}":/etc/ansible/roles/ansible-role-strongswan-swanctl:ro ${distribution}-${version}:ansible > "${container_id}"'
-  - 'sudo docker exec "$(cat ${container_id})" env ANSIBLE_FORCE_COLOR=1 ansible-galaxy install -r /etc/ansible/roles/ansible-role-strongswan-swanctl/requirements.yml --force'
-  - 'sudo docker exec "$(cat ${container_id})" env ANSIBLE_FORCE_COLOR=1 ansible-playbook -v /etc/ansible/roles/ansible-role-strongswan-swanctl/molecule/default/playbook.yml --syntax-check'
-  - 'sudo docker exec "$(cat ${container_id})" env ANSIBLE_FORCE_COLOR=1 ansible-playbook -v /etc/ansible/roles/ansible-role-strongswan-swanctl/molecule/default/playbook.yml'
-  - >
-    sudo docker exec "$(cat ${container_id})" env ANSIBLE_FORCE_COLOR=1 ansible-playbook -v /etc/ansible/roles/ansible-role-strongswan-swanctl/molecule/default/playbook.yml
-    | grep -q 'changed=0.*failed=0'
-    && (echo 'Idempotence test: pass' && exit 0)
-    || (echo 'Idempotence test: fail' && exit 1)
-  - 'sudo docker rm -f "$(cat ${container_id})"'
+  - molecule test
+
+notifications:
+  webhooks: https://galaxy.ansible.com/api/v1/notifications/
