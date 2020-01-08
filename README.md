@@ -148,4 +148,4 @@ BSD 2-clause "Simplified" license
 
 #### Author Information
 
-Tinashe Chikomo
+hybridadmin
