@@ -118,7 +118,7 @@ StrongSwan server playbook:
 ```yaml
 - hosts: server
   roles:
-    - serverbee.strongswan
+    - hybridadmin.strongswan_swanctl
 ```
 
 StrongSwan clients playbook:
@@ -127,7 +127,7 @@ StrongSwan clients playbook:
 - hosts:
     - server
   roles:
-    - serverbee.strongswan
+    - hybridadmin.strongswan_swanctl
   vars:
     strongswan_client: true
     strongswan_download_cert: true
@@ -135,7 +135,7 @@ StrongSwan clients playbook:
 - hosts:
     - clients
   roles:
-    - serverbee.strongswan
+    - hybridadmin.strongswan_swanctl
   vars:
     strongswan_upload_cert: true
 ```
