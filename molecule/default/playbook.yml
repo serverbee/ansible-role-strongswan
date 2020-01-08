@@ -26,4 +26,4 @@
       when: ansible_os_family == 'Debian'
 
   roles:
-    - ansible-role-strongswan-swanctl
+    - hybridadmin.strongswan_swanctl
