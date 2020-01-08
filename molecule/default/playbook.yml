@@ -15,17 +15,17 @@
       changed_when: false
 
     - name: Install cron (RedHat).
-      action: >
-        {{ ansible_pkg_mgr }} name={{ package_list }} state=present update_cache=yes
-        vars:
-          packages: ['cronie','git']
+      package: name="{{ item }}" state=present
+      with_items:
+        - cronie
+        - git
       when: ansible_os_family == 'RedHat'
 
     - name: Install cron (Debian).
-      action: >
-        {{ ansible_pkg_mgr }} name={{ package_list }} state=present update_cache=yes
-        vars:
-          packages: ['cron','git']
+      package: name="{{ item }}" state=present
+      with_items:
+        - cron
+        - git
       when: ansible_os_family == 'Debian'
 
   roles:
