@@ -23,7 +23,6 @@ This role uses a [strongswan.conf-style syntax](https://wiki.strongswan.org/proj
 
 ## Dependencies
 
- - geerlingguy.repo-epel
  - geerlingguy.certbot
 
 #### Example
