@@ -5,6 +5,7 @@
   no_log: result.rc == 0
 
   vars:
+    strongswan_letsencrypt_enable: false
     certbot_install_from_source: true
     certbot_auto_renew_user: root
 
