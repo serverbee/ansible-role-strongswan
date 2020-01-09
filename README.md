@@ -29,17 +29,7 @@ This role uses a [strongswan.conf-style syntax](https://wiki.strongswan.org/proj
 
 ##### Basic example
 
-Ansible inventory:  
-
-```
-[server]
-moon.strongswan.org
-
-[clients]
-carol.strongswan.org
-```  
-
-Host vars for moon.strongswan.org:
+Host vars for StrongSwan Server:
 
 ```yaml
 # Enable variable bellow only for first certificate generating
@@ -56,61 +46,35 @@ certbot_create_standalone_stop_services: []
 # Set StrongSwan swanctl configuration
 strongswan_swanctl_settings:
   connections:
-    rw:
-      unique: replace
+    ikev2-eap:
       version: 2
-      send_certreq: "no"
-      local_addrs: "{{ ansible_default_ipv4.address }}"
+      proposals: aes192gcm16-aes128gcm16-prfsha256-ecp256-ecp521,aes192-sha256-modp3072,default
+      rekey_time:  0s
+      encap: yes
+      pools: primary-pool-ipv4
+      fragmentation: yes
+      dpd_delay: 30s
+      local-1:
+        certs: cert.pem
+        id: myid
+      remote-1:
+        auth: eap-dynamic
+        eap_id: %any
       children:
-        net:
-          local_ts: 192.168.2.0/24
-          #updown: "/usr/libexec/strongswan/_updown iptables"
-      local:
-        auth: pubkey
-        certs: Cert.pem
-        id: moon.strongswan.org
-      remote: 
-        auth: eap-mschapv2
-        eap_id: "%any"
-
+        ikev2-eap:
+          local_ts: 0.0.0.0/0,::/0
+          rekey_time: 0s
+          dpd_action: clear
+          esp_proposals: aes192gcm16-aes128gcm16-prfsha256-ecp256-modp3072,aes192-sha256-ecp256-modp3072,default
+  pools:
+    primary-pool-ipv4:
+      addrs: 192.168.252.0/24
+      dns: 1.1.1.1, 9.9.9.9
   secrets:
-    eap-carol:
-      id: carol
-      secret: Ar3etTnp
+    eap-user:
+      id: user
+      secret: Ar3e73tTnp02
 ```  
-
-Host vars for carol.strongswan.org:
-```yaml
-# Set StrongSwan client only options
-strongswan_client: true
-strongswan_letsencrypt_enable: false
-strongswan_firewalld_enable: false
-
-# Set StrongSwan swanctl configuration
-strongswan_swanctl_settings:
-  connections:
-    home:
-      remote_addrs: moon.strongswan.org
-      local_addrs: 192.168.10.1
-      local:
-        auth: eap
-        eap_id: carol
-      remote:
-        auth: pubkey
-        id: moon.strongswan.org
-      children:
-        home:
-          remote_ts: 192.168.2.0/24
-          #updown: "/usr/libexec/strongswan/_updown iptables"
-          start_action: start
-      version: 2
-      #encap: yes
-
-  secrets:
-    eap-carol:
-      id: carol
-      secret: Ar3etTnp
-```
 
 StrongSwan server playbook:
 
