@@ -15,7 +15,7 @@
 
   - name: Debian | set required package list
     set_fact:
-      package_list: ['strongswan','strongswan-swanctl','apparmor-utils','debconf-utils','procps']
+      package_list: ['strongswan','strongswan-swanctl','libcharon-extra-plugins','apparmor-utils','debconf-utils','procps']
     when: ansible_os_family == 'Debian'
 
 - name: Install required strongswan packages
