@@ -75,7 +75,32 @@ strongswan_swanctl_settings:
       id: user
       secret: Ar3e73tTnp02
 ```  
-
+Host vars for carol.strongswan.org:
+```yaml
+strongswan_swanctl_settings:
+  connections:
+    home:
+      encap: yes
+      vips: 0.0.0.0
+      remote_addrs: moon.strongswan.org
+      proposals: aes192-sha256-ecp256-modp3072
+      version = 2
+      children:
+        home:
+          remote_ts: 0.0.0.0/0,::/0
+          start_action: none
+          esp_proposals: aes192-sha256-ecp256-modp3072
+      local:
+        auth: eap-aka
+        eap_id: carol
+      remote:
+        auth: pubkey
+        id: moon.strongswan.org
+  secrets:
+    eap-carol:
+      id: carol
+      secret: Ar3etTnp 
+```
 StrongSwan server playbook:
 
 ```yaml
