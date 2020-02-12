@@ -84,7 +84,7 @@ strongswan_swanctl_settings:
       vips: 0.0.0.0
       remote_addrs: moon.strongswan.org
       proposals: aes192-sha256-ecp256-modp3072
-      version = 2
+      version: 2
       children:
         home:
           remote_ts: 0.0.0.0/0,::/0
