@@ -28,7 +28,7 @@
   - name: Find a name of letsencrypt domain certificate directory
     find:
       paths: /etc/letsencrypt/live
-      recurse: no
+      recurse: false
       file_type: directory
     register: letsencrypt_found_dir
 
@@ -47,9 +47,12 @@
       dest: "{{ item.dest }}"
       state: link
     with_items:
-      - { src: "{{ letsencrypt_domain_dir }}/chain.pem", dest: "{{ strongswan_swanctl_config_dir }}/x509ca/strongswanCert.pem" }
-      - { src: "{{ letsencrypt_domain_dir }}/fullchain.pem", dest: "{{ strongswan_swanctl_config_dir }}/x509/Cert.pem" }
-      - { src: "{{ letsencrypt_domain_dir }}/privkey.pem", dest: "{{ strongswan_swanctl_config_dir }}/private/Key.pem" }
+      - src: "{{ letsencrypt_domain_dir }}/chain.pem"
+        dest: "{{ strongswan_swanctl_config_dir }}/x509ca/strongswanCert.pem"
+      - src: "{{ letsencrypt_domain_dir }}/fullchain.pem"
+        dest: "{{ strongswan_swanctl_config_dir }}/x509/Cert.pem"
+      - src: "{{ letsencrypt_domain_dir }}/privkey.pem"
+        dest: "{{ strongswan_swanctl_config_dir }}/private/Key.pem"
     when: letsencrypt_cert.stat.exists
 
   - name: fail due to missing letsencrypt certificate
