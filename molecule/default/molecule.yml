@@ -1,3 +1,4 @@
+---
 dependency:
   name: galaxy
 driver:
@@ -29,4 +30,4 @@ provisioner:
       timeout: 60
 verifier:
   name: ansible
-  enabled: False
+  enabled: false
