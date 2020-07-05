@@ -1,5 +1,5 @@
 ---
-# Based on https://github.com/ansible/galaxy/blob/devel/galaxy/importer/linters/yamllint.yaml
+# Based on shorturl.at/kAEQ6
 extends: default
 
 rules:
