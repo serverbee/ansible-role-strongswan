@@ -13,7 +13,7 @@ strongswan_settings:
   swanctl:
     load: pem pkcs1 x509 revocation constraints pubkey openssl random
   charon:
-    load_modular: yes
+    load_modular: "yes"
     fragment_size: 1400
     dns1: 1.1.1.1
     dns2: 9.9.9.9
