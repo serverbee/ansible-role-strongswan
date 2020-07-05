@@ -3,10 +3,10 @@ dependency:
   name: galaxy
 driver:
   name: docker
-lint: |
-  set -e
-  yamllint .
-  ansible-lint
+#lint: |
+#  set -e
+#  yamllint .
+#  ansible-lint
 platforms:
   - name: ansible-role-${ROLE_NAME}-${MOLECULE_DISTRO}
     image: "geerlingguy/docker-${MOLECULE_DISTRO:-centos7}-ansible:latest"
@@ -20,8 +20,8 @@ provisioner:
   log: true
   options:
     v: true
-  lint:
-    name: ansible-lint
+#  lint:
+#    name: ansible-lint
   playbooks:
     converge: ${MOLECULE_PLAYBOOK:-playbook.yml}
   config_options:
