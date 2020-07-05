@@ -57,7 +57,7 @@
 
   - name: fail due to missing letsencrypt certificate
     fail:
-      msg: "Error: letsencrypt certificate doesn't exists. Please check your 
+      msg: "Error: letsencrypt certificate doesn't exists. Please check your
            certificate configuration !"
     when: not letsencrypt_cert.stat.exists
 
@@ -100,7 +100,7 @@
 # It's workaround until direct option will be added to firewalld ansible module
 # https://github.com/ansible/ansible/pull/49514
 - name: Skip NAT for ipsec packets with a matching IPsec policy
-  shell: >-
+  shell: |
     /usr/sbin/iptables -t nat -D POSTROUTING -m policy --pol ipsec --dir out -j ACCEPT
     /usr/sbin/iptables -t nat -I POSTROUTING -m policy --pol ipsec --dir out -j ACCEPT
   when:
