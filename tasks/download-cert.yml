@@ -4,7 +4,7 @@
   fetch:
     src: "{{ item }}"
     dest: certs/
-    flat: yes
+    flat: true
   with_items:
     - "{{ strongswan_swanctl_config_dir }}/x509ca/strongswanCert.pem"
     - "{{ strongswan_swanctl_config_dir }}/x509/Cert.pem"
