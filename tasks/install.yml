@@ -1,5 +1,5 @@
 ---
-- name: process strongswan pre-requisites       
+- name: process strongswan pre-requisites
   block:
   - name: Redhat | enable EPEL repo
     become: true

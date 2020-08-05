@@ -30,5 +30,6 @@
       when: ansible_os_family == 'Debian'
 
   roles:
-    - hybridadmin.strongswan_swanctl
+#    - hybridadmin.strongswan_swanctl
+    - ansible-role-strongswan-swanctl
     - geerlingguy.certbot
