@@ -16,10 +16,10 @@ install:
   - pip install molecule docker yamllint ansible-lint
 before_script:
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-  - cd ../
-  - GALAXY_ROLE_NAME=$(echo "${ROLE_NAME}" | tr '-' '_')
-  - mv ansible-role-$ROLE_NAME hybridadmin.$GALAXY_ROLE_NAME
-  - cd hybridadmin.$GALAXY_ROLE_NAME
+#  - cd ../
+#  - GALAXY_ROLE_NAME=$(echo "${ROLE_NAME}" | tr '-' '_')
+#  - mv ansible-role-$ROLE_NAME hybridadmin.$GALAXY_ROLE_NAME
+#  - cd hybridadmin.$GALAXY_ROLE_NAME
 script:
   - molecule test
 notifications:
