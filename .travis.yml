@@ -1,5 +1,6 @@
 ---
 sudo: required
+dist: focal
 language: python
 env:
   global:
