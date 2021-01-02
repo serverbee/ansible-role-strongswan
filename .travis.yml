@@ -14,7 +14,7 @@ env:
     - MOLECULE_DISTRO: debian9
 services: docker
 install:
-  - pip install molecule docker yamllint ansible-lint
+  - pip install molecule-docker yamllint ansible-lint
 before_script:
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
 #  - cd ../
