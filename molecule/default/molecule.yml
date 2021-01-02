@@ -17,7 +17,7 @@ platforms:
     pre_build_image: true
 provisioner:
   name: ansible
-  log: true
+  log: True
   options:
     v: true
   playbooks:
