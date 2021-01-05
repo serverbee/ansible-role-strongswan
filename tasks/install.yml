@@ -13,6 +13,13 @@
       package_list: ['strongswan']
     when: ansible_os_family == 'RedHat'
 
+  - name: Redhat 8 | include dnf-plugins-core package
+    set_fact:
+      package_list: "{{ package_list + [ 'dnf-plugins-core' ] }}"
+    when:
+    - ansible_os_family == 'RedHat'
+    - ansible_distribution_major_version  | int >= 8
+
   - name: Debian | set required package list
     set_fact:
       package_list: ['strongswan', 'strongswan-swanctl', 'libcharon-extra-plugins', 'apparmor-utils', 'debconf-utils', 'procps']
