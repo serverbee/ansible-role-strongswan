@@ -3,5 +3,8 @@
   version: master
   name: ansible-role-strongswan-swanctl
 - src: geerlingguy.repo-epel
-- src: geerlingguy.certbot
+#- src: geerlingguy.certbot
+- src: https://github.com/geerlingguy/ansible-role-certbot.git
+  version: master
+  name: geerlingguy.certbot
 - src: shhirose.firewalld
