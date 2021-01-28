@@ -1,0 +1,79 @@
+---
+name: CI
+
+'on':
+  pull_request:
+  push:
+    branches:
+      - main
+  schedule:
+    - cron: "0 6 * * 3"
+
+jobs:
+
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the codebase.
+        uses: actions/checkout@v2
+
+      - name: Set up Python 3.
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
+
+      - name: Install test dependencies.
+        run: pip3 install yamllint ansible-lint
+
+      - name: Lint code.
+        run: |
+          yamllint .
+          ansible-lint
+
+  molecule:
+    needs:
+      - lint
+    name: Molecule
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      max-parallel: 5
+      matrix:
+        distro:
+          - image: centos
+            tag: 8
+          - image: centos
+            tag: 7
+          - image: ubuntu
+            tag: focal
+          - image: ubuntu
+            tag: bionic
+          - image: debian
+            tag: 10
+          - image: debian
+            tag: 9
+    env:
+      ANSIBLE_CALLBACK_WHITELIST: profile_tasks
+      ANSIBLE_STDOUT_CALLBACK: yaml
+      ANSIBLE_VERBOSITY: 1
+      ANSIBLE_LOAD_CALLBACK_PLUGINS: true
+    steps:
+      - name: Check out the codebase.
+        uses: actions/checkout@v2
+
+      - name: Set up Python 3.
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
+
+      - name: Install test dependencies.
+        run: pip3 install ansible molecule-docker ansible-lint yamllint
+
+      - name: Run Molecule tests.
+        run: molecule test
+        env:
+          PY_COLORS: '1'
+          ANSIBLE_FORCE_COLOR: '1'
+          MOLECULE_DISTRO: ${{ matrix.distro.image }}
+          MOLECULE_DISTRO_TAG: ${{ matrix.distro.tag }}
