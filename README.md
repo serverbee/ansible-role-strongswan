@@ -1,5 +1,5 @@
 ## StrongSwan role
-[![Build Status](https://travis-ci.com/hybridadmin/ansible-role-strongswan-swanctl.svg?branch=master)](https://travis-ci.com/hybridadmin/ansible-role-strongswan-swanctl)
+[![Build Status](https://travis-ci.com/hybridadmin/ansible-role-strongswan-swanctl.svg?branch=master)](https://travis-ci.com/hybridadmin/ansible-role-strongswan-swanctl) ![CI](https://github.com/hybridadmin/ansible-role-strongswan-swanctl/workflows/CI/badge.svg?branch=master)
 
 Tested on Ubuntu 18.04 and CentOS 7.
 
