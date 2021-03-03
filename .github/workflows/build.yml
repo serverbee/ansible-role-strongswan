@@ -30,7 +30,7 @@ jobs:
           python-version: '3.x'
 
       - name: Install test dependencies.
-        run: pip3 install ansible yamllint ansible-lint==4.3.7
+        run: pip3 install ansible yamllint ansible-lint
 
       - name: Lint code.
         run: |
@@ -55,16 +55,10 @@ jobs:
             tag: focal
           - image: ubuntu
             tag: bionic
-          - image: ubuntu
-            tag: xenial
           - image: debian
             tag: 10
-          - image: fedora
-            tag: 33
-          - image: fedora
-            tag: 32
-          - image: amazonlinux
-            tag: 2
+          - image: debian
+            tag: 9
     env:
       ANSIBLE_CALLBACK_WHITELIST: profile_tasks
       ANSIBLE_STDOUT_CALLBACK: yaml
@@ -82,7 +76,7 @@ jobs:
           python-version: '3.x'
 
       - name: Install test dependencies.
-        run: pip3 install ansible molecule-docker yamllint ansible-lint==4.3.7
+        run: pip3 install ansible molecule-docker yamllint ansible-lint
 
       - name: Run Molecule tests.
         run: molecule test

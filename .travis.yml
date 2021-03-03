@@ -4,7 +4,7 @@ dist: focal
 language: python
 env:
   global:
-    - ROLE_NAME: strongswan-swanctl
+    - ROLE_NAME: strongswan_swanctl
     - secure: LLZ9CxAWLWUjbBg2lOcLnoSTsInKXiBtLQeuc44XqcShQilCVkBhaS3vctYuWlYvPtDysws8numJZerSIuwCkSttMvDD1P8DGJ6xeVMzMN1WYpzMHgadIDKEe/dRVpX1z8WeDVLLLFvvfS7Azz1k6K8e9TI/iZxuTWhRCjhSNscgGJoQqLlYJhc3CKFfukzWnUwW/iTnWs57P4PQNcgKqtcyHcALDWW8T3Oa5gjPoFzSmjGD0fg6BhP40suF+ZPkBpWXfOwNIO5Yf3PdP5HuuiusGnHB9peuBf4N/GD8ktkwvsrUu+WE+crpFgdheUPRSa+iUtRLijZij8hgoa1RAYGWDod5vmNvu3iquToGeasfPY+b8/1UIKVE3rmhTQ5eAG7GHwGjWzlw2mKhGrFdyz0fjTqz83D3fmQ/xKbYve5KOfS9qwXpr0Xsf3t5R5VhmFNguQ7G5nkwrH5JlNiRoWbzpHz19fudhExU3J024IG0jIyv+uoHFLoKvPAszRwwR6thhTcpWVPt7k+Ojb9gJHe9DDtLZYfHX8On0V7Sx330TNvMEbWWAZL4IqVZ/rqZe+ZoVuAAjqkkkmqQbJ/seByP6VDW/NlH0+SDLNY778t+WW9TCzQ4LHANli/XOYIQgKA9ppc1zvtF9yV2TFw/vrVuP5/Ple0tf8fX978mGWA=
     - secure: hLXl4ci9YlReB9Am+W8T6XJHyLKRuAKlSvb3OINLzCtYP9lKJ/d8Zv3ZCQYh7mg+RILs1KPBsXXVUaHTl7xupdE/S8Zz3ZLT532majkiQnU0HdG/3FaWMYmSAPKNJ1ZWSwy8Og83efPum+gi96UslhdPSAKZAHbOumm9pKbLLAnld45cCePL6rPTww0JgWu4hgi557x+t6/DwRZnREs50x3L5kiTvr2eAwvrvtgk8eZN7SUGOFxk+rrECCKT/hRftUWcHqZCqBjxrfwWqCraVdgWL+UsbGcscl7+MyH+g453uxffLB8UGho4FxvoyI2J+OhQxWrkXo53F+opYF4Oyk15z1ZIscW41oU7fxIyL/HRAmXTrNUMWIdDGKnCw2KIApwN/niuMWoi6W+i9u3ZZjDMbiK6WRzDjX77+uxJT/SMB5lzSbIUpVaafGvfmJwbG689GBiuoK6dgWJy8A21QIoKyEu+wK1j6tHLD3DAah9wlvItpObxNqil5Yt0BGvaU9m4/dMOHr85C9Da4f+liUCFkj5eDbwTcv1PRgqyzUBnmxLNt1DfiDN+cr3R6csqPCV8wojiO4105zvSI9XwoE4rKEvd5op48QbRkNHQ1nphCUn5Iz5z/whFwer4GKWN8uYfLU4IIcdsxEx85+SqxcnhPGVZUETFHcA5npE1mJs=
   jobs:
@@ -19,10 +19,10 @@ install:
   - pip install molecule-docker yamllint ansible-lint
 before_script:
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-#  - cd ../
-#  - GALAXY_ROLE_NAME=$(echo "${ROLE_NAME}" | tr '-' '_')
-#  - mv ansible-role-$ROLE_NAME hybridadmin.$GALAXY_ROLE_NAME
-#  - cd hybridadmin.$GALAXY_ROLE_NAME
+  - cd ../
+  - GALAXY_ROLE_NAME=$(echo "${ROLE_NAME}" | tr '-' '_')
+  - mv ansible-role-$ROLE_NAME hybridadmin.$GALAXY_ROLE_NAME
+  - cd hybridadmin.$GALAXY_ROLE_NAME
 script:
   - molecule test
 notifications:
