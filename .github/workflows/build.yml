@@ -1,4 +1,3 @@
----
 name: CI
 
 'on':
@@ -9,14 +8,21 @@ name: CI
   schedule:
     - cron: "0 6 * * 3"
 
+
+defaults:
+  run:
+    working-directory: 'hybridadmin.strongswan_swanctl'
+
 jobs:
 
   lint:
     name: Lint
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     steps:
       - name: Check out the codebase.
         uses: actions/checkout@v2
+        with:
+          path: 'hybridadmin.strongswan_swanctl'
 
       - name: Set up Python 3.
         uses: actions/setup-python@v2
@@ -24,7 +30,7 @@ jobs:
           python-version: '3.x'
 
       - name: Install test dependencies.
-        run: pip3 install yamllint ansible-lint
+        run: pip3 install ansible yamllint ansible-lint==4.3.7
 
       - name: Lint code.
         run: |
@@ -35,7 +41,7 @@ jobs:
     needs:
       - lint
     name: Molecule
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     strategy:
       fail-fast: false
       max-parallel: 5
@@ -49,10 +55,16 @@ jobs:
             tag: focal
           - image: ubuntu
             tag: bionic
+          - image: ubuntu
+            tag: xenial
           - image: debian
             tag: 10
-          - image: debian
-            tag: 9
+          - image: fedora
+            tag: 33
+          - image: fedora
+            tag: 32
+          - image: amazonlinux
+            tag: 2
     env:
       ANSIBLE_CALLBACK_WHITELIST: profile_tasks
       ANSIBLE_STDOUT_CALLBACK: yaml
@@ -61,6 +73,8 @@ jobs:
     steps:
       - name: Check out the codebase.
         uses: actions/checkout@v2
+        with:
+          path: 'hybridadmin.strongswan_swanctl'
 
       - name: Set up Python 3.
         uses: actions/setup-python@v2
@@ -68,7 +82,7 @@ jobs:
           python-version: '3.x'
 
       - name: Install test dependencies.
-        run: pip3 install ansible molecule-docker ansible-lint yamllint
+        run: pip3 install ansible molecule-docker yamllint ansible-lint==4.3.7
 
       - name: Run Molecule tests.
         run: molecule test
