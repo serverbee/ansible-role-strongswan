@@ -1,5 +1,4 @@
 ---
-roles:
-  - src: https://github.com/geerlingguy/ansible-role-certbot.git
-    version: master
-    name: geerlingguy.certbot
+- src: https://github.com/geerlingguy/ansible-role-certbot.git
+  version: master
+  name: geerlingguy.certbot
