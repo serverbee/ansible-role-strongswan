@@ -10,3 +10,22 @@
 
 - name: sysctl reload
   command: sysctl -p "{{ sysctl_conf_file }}"
+
+- name: configure
+  command: ./configure {{ strongswan_build_cmd }}
+  args:
+    chdir: "{{ strongswan_temporary_directory }}/strongswan-{{ strongswan_version }}"
+    creates: "{{ strongswan_temporary_directory }}/strongswan-{{ strongswan_version }}/Makefile"
+
+- name: make
+  make:
+    chdir: "{{ strongswan_temporary_directory }}/strongswan-{{ strongswan_version }}"
+
+- name: make install
+  make:
+    chdir: "{{ strongswan_temporary_directory }}/strongswan-{{ strongswan_version }}"
+    target: install
+
+- name: systemctl daemon-reload
+  systemd:
+    daemon_reload: yes

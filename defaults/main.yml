@@ -1,5 +1,7 @@
 ---
 
+strongswan_version:  5.9.2
+
 strongswan_letsencrypt_enable: true
 strongswan_firewalld_enable: false
 strongswan_client: false
@@ -21,6 +23,18 @@ strongswan_settings:
       creds: /usr/sbin/swanctl --load-creds
       conns: /usr/sbin/swanctl --load-conns
       pools: /usr/sbin/swanctl --load-pools
+    filelog:
+      charon:
+        path: "/var/log/charon.log"
+        time_format: "%b %e %T"
+        ike_name: yes
+        append: no
+        default: 2
+        flush_line: yes
+      stderr:
+        ike: 2
+        knl: 3
+
 
 sysctl_conf_file: "/etc/sysctl.d/60-strongswan.conf"
 iptables_nat_fix: false

@@ -1,10 +1,6 @@
 ---
 
 - block:
-#  - name: selinux | set permissive value for ipsec_mgmt_t
-#    selinux_permissive:
-#      name: ipsec_mgmt_t
-#      permissive: true
 
   - name: Change to permissive value for SELinux
     selinux:
@@ -79,7 +75,8 @@
     owner: root
     group: root
     mode: 0644
-  notify: swanctl restart
+  notify:
+    - swanctl restart
 
 - name: Configure forwarding sysctl
   template:
@@ -88,7 +85,8 @@
     owner: root
     group: root
     mode: 0644
-  notify: sysctl reload
+  notify:
+    - sysctl reload
 
 - name: Ensure Strongswan service is enabled and started
   systemd:

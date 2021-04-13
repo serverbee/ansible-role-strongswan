@@ -1,35 +1,5 @@
 ---
 
-- name: Debian | strongswan-swanctl config directory
-  set_fact:
-    strongswan_swanctl_config_dir: /etc/swanctl
-    strongswan_swanctl_svc: strongswan.service
-    strongswan_conf_file: "/etc/strongswan.d/10-strongswan.conf"
-  when:
-  - ansible_os_family == "Debian"
-  - ansible_distribution_major_version | int < 20
-
-- name: Ubuntu > 20 | strongswan-swanctl config directory
-  set_fact:
-    strongswan_swanctl_config_dir: /etc/swanctl
-    strongswan_swanctl_svc: strongswan-starter.service
-    strongswan_conf_file: "/etc/strongswan.d/10-strongswan.conf"
-  when:
-  - ansible_os_family == "Debian"
-  - ansible_distribution_major_version | int >= 20
-
-- name: RedHat | strongswan-swanctl config directory
-  set_fact:
-    strongswan_swanctl_config_dir: /etc/strongswan/swanctl
-    strongswan_swanctl_svc: strongswan.service
-    strongswan_conf_file: "/etc/strongswan/strongswan.d/10-strongswan.conf"
-  when: ansible_os_family == "RedHat"
-
-- name: strongswan-swanctl config file
-  set_fact:
-    strongswan_swanctl_config_file: "{{ strongswan_swanctl_config_dir }}/swanctl.conf"
-  when: strongswan_swanctl_config_dir is defined
-
 - include: install.yml
   tags: strongswan-install
 

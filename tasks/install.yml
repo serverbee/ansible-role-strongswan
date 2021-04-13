@@ -1,33 +1,43 @@
 ---
-- name: process strongswan pre-requisites
-  block:
-  - name: Redhat | enable EPEL repo
-    become: true
-    package:
-      name: epel-release
-      state: present
-    when: ansible_os_family == 'RedHat'
 
-  - name: Redhat | set required package list
-    set_fact:
-      package_list: ['strongswan']
-    when: ansible_os_family == 'RedHat'
-
-  - name: Redhat 8 | include dnf-plugins-core package
-    set_fact:
-      package_list: "{{ package_list + [ 'dnf-plugins-core' ] }}"
-    when:
-    - ansible_os_family == 'RedHat'
-    - ansible_distribution_major_version  | int >= 8
-
-  - name: Debian | set required package list
-    set_fact:
-      package_list: ['strongswan', 'strongswan-swanctl', 'libcharon-extra-plugins', 'apparmor-utils', 'debconf-utils', 'procps']
-    when: ansible_os_family == 'Debian'
-
-- name: Install required strongswan packages
+- name: Install required build packages
   action: >
-    {{ ansible_pkg_mgr }} name={{ package_list }} state=present update_cache=yes
+    {{ ansible_pkg_mgr }} name={{ build_package_list }} state=present update_cache=yes
     vars:
-      packages: "{{ package_list }}"
-  when: package_list is defined
+      packages: "{{ build_package_list }}"
+  when: build_package_list is defined
+
+- name: "download archive strongswan-{{ strongswan_version }}.tar.gz"
+  unarchive:
+    src: "https://download.strongswan.org/strongswan-{{ strongswan_version }}.tar.gz"
+    dest: "{{ strongswan_temporary_directory }}"
+    list_files: yes
+    remote_src: yes
+    creates: "{{ strongswan_temporary_directory }}/strongswan-{{ strongswan_version }}"
+  register: strongswan_download_archive
+  until: strongswan_download_archive is succeeded
+  retries: 3
+  notify:
+    - configure
+    - make
+    - make install
+
+- name: "create group {{ strongswan_grp }}"
+  group:
+    name: "{{ strongswan_grp }}"
+    system: yes
+    gid: 88
+
+- name: "create user {{ strongswan_usr }}"
+  user:
+    name: "{{ strongswan_usr }}"
+#    home: "{{ strongswan_lib_dir }}"
+    comment: "strongSwan IPsec IKEv1/IKEv2 daemon user"
+    group: strongswan
+    system: yes
+    uid: 88
+    shell: /bin/false
+  changed_when: false
+
+- name: flush handlers
+  meta: flush_handlers

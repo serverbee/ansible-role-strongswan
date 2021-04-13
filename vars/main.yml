@@ -1,0 +1,34 @@
+---
+
+strongswan_usr: strongswan
+strongswan_grp: strongswan
+strongswan_build_cmd: ' --prefix=/usr --sysconfdir=/etc --enable-systemd --enable-swanctl --with-capabilities=libcap --enable-openssl --enable-sqlite --enable-mysql'
+strongswan_temporary_directory: /tmp
+
+strongswan_swanctl_config_dir: "/etc/swanctl/conf.d"
+strongswan_swanctl_svc: "strongswan.service"
+strongswan_conf_file: "/etc/strongswan.d/10-strongswan.conf"
+
+strongswan_swanctl_config_file: "{{ strongswan_swanctl_config_dir }}/swanctl.conf"
+
+_build_package_list:
+  default:
+    - gcc
+    - make
+    - pkg-config
+  Debian:
+    - libsystemd-dev
+    - libgmp-dev
+    - libcap-dev
+    - libssl-dev
+    - libsqlite3-dev
+    - libmysqlclient-dev
+  RedHat:
+    - systemd-devel
+    - gmp-devel
+    - libcap-devel
+    - openssl-devel
+    - sqlite-devel
+    - mariadb-devel
+
+build_package_list: "{{ _build_package_list['default'] + _build_package_list[ansible_os_family] }}"
