@@ -5,6 +5,7 @@ strongswan_grp: strongswan
 strongswan_build_cmd: ' --prefix=/usr --sysconfdir=/etc --enable-systemd --enable-swanctl --with-capabilities=libcap --enable-openssl --enable-sqlite --enable-mysql'
 strongswan_temporary_directory: /tmp
 
+strongswan_swanctl_root_dir: "/etc/swanctl"
 strongswan_swanctl_config_dir: "/etc/swanctl/conf.d"
 strongswan_swanctl_svc: "strongswan.service"
 strongswan_conf_file: "/etc/strongswan.d/10-strongswan.conf"
@@ -32,3 +33,9 @@ _build_package_list:
     - mariadb-devel
 
 build_package_list: "{{ _build_package_list['default'] + _build_package_list[ansible_os_family] }}"
+
+letsencrypt_ssl_certs:
+  - { fqdn: "{{ vpn_hostname }}",
+    privkey: "/etc/letsencrypt/live/{{ vpn_hostname }}/privkey.pem",
+    cert: "/etc/letsencrypt/live/{{ vpn_hostname }}/cert.pem",
+    chain: "/etc/letsencrypt/live/{{ vpn_hostname }}/chain.pem" }

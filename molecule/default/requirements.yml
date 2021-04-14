@@ -1,4 +1,4 @@
 ---
-- src: https://github.com/geerlingguy/ansible-role-certbot.git
-  version: master
-  name: geerlingguy.certbot
+
+roles:
+  - name: geerlingguy.certbot

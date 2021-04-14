@@ -44,7 +44,7 @@
       state: link
     with_items:
       - src: "{{ letsencrypt_domain_dir }}/chain.pem"
-        dest: "{{ strongswan_swanctl_config_dir }}/x509ca/strongswanCert.pem"
+        dest: "{{ strongswan_swanctl_config_dir }}/x509ca/ca-cert.pem"
       - src: "{{ letsencrypt_domain_dir }}/fullchain.pem"
         dest: "{{ strongswan_swanctl_config_dir }}/x509/Cert.pem"
       - src: "{{ letsencrypt_domain_dir }}/privkey.pem"

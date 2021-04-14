@@ -2,12 +2,14 @@
 - name: Converge
   hosts: all
   become: true
-#  no_log: result.rc == 0
 
   vars:
     strongswan_letsencrypt_enable: false
-    certbot_install_from_source: true
-    certbot_auto_renew_user: root
+#    certbot_auto_renew_user: root
+#    certbot_certs:
+#      - email: janedoe@example.com
+#        domains:
+#          - vpn.example.com
 
   pre_tasks:
     - name: Update apt cache.
@@ -15,20 +17,21 @@
       when: ansible_os_family == 'Debian'
       changed_when: false
 
-    - name: Install cron (RedHat).
-      package: name="{{ item }}" state=present
-      with_items:
-        - cronie
-        - git
-      when: ansible_os_family == 'RedHat'
+#    - name: Install cron (RedHat).
+#      package: name="{{ item }}" state=present
+#      with_items:
+#        - cronie
+#        - git
+#      when: ansible_os_family == 'RedHat'
 
-    - name: Install cron (Debian).
-      package: name="{{ item }}" state=present
-      with_items:
-        - cron
-        - git
-      when: ansible_os_family == 'Debian'
+#    - name: Install cron (Debian).
+#      package: name="{{ item }}" state=present
+#      with_items:
+#        - cron
+#        - git
+#      when: ansible_os_family == 'Debian'
 
-  roles:
-    - hybridadmin.strongswan_swanctl
-    - geerlingguy.certbot
+    - name: "Include hybridadmin.strongswan_swanctl role"
+      include_role:
+        name: "ansible-role-strongswan-swanctl"
+#        name: "hybridadmin.strongswan_swanctl"

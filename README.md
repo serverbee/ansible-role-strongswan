@@ -44,11 +44,14 @@ certbot_create_standalone_stop_services: []
 
 ```yaml
 # Set StrongSwan swanctl configuration
+# https://wiki.strongswan.org/projects/strongswan/wiki/UsableExamples
 strongswan_swanctl_settings:
   connections:
     ikev2-eap:
       version: 2
       rekey_time:  0s
+      fragmentation: yes
+      proposals: aes192gcm16-aes128gcm16-prfsha256-ecp256-ecp521,aes192-sha256-modp3072,default
       encap: yes
       pools: primary-pool-ipv4
       dpd_delay: 30s
@@ -63,6 +66,7 @@ strongswan_swanctl_settings:
           local_ts: 0.0.0.0/0,::/0
           rekey_time: 0s
           dpd_action: clear
+          esp_proposals = aes192gcm16-aes128gcm16-prfsha256-ecp256-modp3072,aes192-sha256-ecp256-modp3072,default
   pools:
     primary-pool-ipv4:
       addrs: 192.168.252.0/24
@@ -80,13 +84,11 @@ strongswan_swanctl_settings:
       encap: yes
       vips: 0.0.0.0
       remote_addrs: moon.strongswan.org
-      proposals: aes192-sha256-ecp256-modp3072
       version: 2
       children:
         home:
           remote_ts: 0.0.0.0/0,::/0
           start_action: none
-          esp_proposals: aes192-sha256-ecp256-modp3072
       local:
         auth: eap-aka
         eap_id: carol

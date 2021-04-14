@@ -6,5 +6,5 @@
     dest: certs/
     flat: true
   with_items:
-    - "{{ strongswan_swanctl_config_dir }}/x509ca/strongswanCert.pem"
-    - "{{ strongswan_swanctl_config_dir }}/x509/Cert.pem"
+    - "{{ strongswan_swanctl_config_dir }}/x509ca/ca-cert.pem"
+    - "{{ strongswan_swanctl_config_dir }}/x509/cert.pem"
