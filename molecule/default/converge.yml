@@ -31,7 +31,7 @@
 #        - git
 #      when: ansible_os_family == 'Debian'
 
-    - name: "Include hybridadmin.strongswan_swanctl role"
+    - name: "Include hybridadmin.strongswan role"
       include_role:
-        name: "ansible-role-strongswan-swanctl"
-#        name: "hybridadmin.strongswan_swanctl"
+        name: "ansible-role-strongswan"
+#        name: "hybridadmin.strongswan"

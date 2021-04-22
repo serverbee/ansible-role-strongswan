@@ -1,6 +1,6 @@
 ## StrongSwan role
 
-[![Build Status](https://travis-ci.com/hybridadmin/ansible-role-strongswan-swanctl.svg?branch=master)](https://travis-ci.com/hybridadmin/ansible-role-strongswan-swanctl) ![CI](https://github.com/hybridadmin/ansible-role-strongswan-swanctl/workflows/CI/badge.svg?branch=master)
+[![Build Status](https://travis-ci.com/hybridadmin/ansible-role-strongswan.svg?branch=master)](https://travis-ci.com/hybridadmin/ansible-role-strongswan) ![CI](https://github.com/hybridadmin/ansible-role-strongswan/workflows/CI/badge.svg?branch=master)
 
 Tested on Ubuntu 18.04 and CentOS 7.
 
@@ -108,7 +108,7 @@ strongswan_swanctl_settings:
 ```yaml
 - hosts: server
   roles:
-    - hybridadmin.strongswan_swanctl
+    - hybridadmin.strongswan
 ```
 
 ### StrongSwan clients playbook:
@@ -117,7 +117,7 @@ strongswan_swanctl_settings:
 - hosts:
     - server
   roles:
-    - hybridadmin.strongswan_swanctl
+    - hybridadmin.strongswan
   vars:
     strongswan_client: true
     strongswan_download_cert: true
@@ -125,7 +125,7 @@ strongswan_swanctl_settings:
 - hosts:
     - clients
   roles:
-    - hybridadmin.strongswan_swanctl
+    - hybridadmin.strongswan
   vars:
     strongswan_upload_cert: true
 ```

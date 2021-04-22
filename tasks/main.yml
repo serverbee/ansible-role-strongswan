@@ -1,7 +1,7 @@
 ---
 
-#- include: install.yml
-#  tags: strongswan-install
+- include: install.yml
+  tags: strongswan-install
 
 - include: ssl-certs.yml
   tags: strongswan-install

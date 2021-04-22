@@ -60,4 +60,4 @@
   with_items:
     - { src: "{{ ansible_user_dir }}/pki/private/server-key.pem", dest: "/etc/swanctl/private/server-key.pem" }
     - { src: "{{ ansible_user_dir }}/pki/certs/server-cert.pem", dest: "/etc/swanctl/x509/cert.pem" }
-    - { src: "{{ ansible_user_dir }}/pki/cacerts/ca-cert.pem", dest: "/etc/swanctl/x509/ca-cert.pem" }
+    - { src: "{{ ansible_user_dir }}/pki/cacerts/ca-cert.pem", dest: "/etc/swanctl/x509ca/ca-cert.pem" }

@@ -4,7 +4,7 @@
 #  - { role: geerlingguy.certbot, when: strongswan_letsencrypt_enable and not strongswan_client }
 
 galaxy_info:
-  role_name: strongswan_swanctl
+  role_name: strongswan
   author: hybridadmin
   description: Role to configure StrongSwan IPSec VPN service.
   company: "N/A"
