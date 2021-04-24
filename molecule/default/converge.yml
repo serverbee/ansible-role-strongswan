@@ -4,34 +4,27 @@
   become: true
 
   vars:
+    _system_packages:
+      default:
+        - git
+      Debian:
+        - cron
+      RedHat:
+        - cronie
+    system_packages: "{{ _system_packages['default'] + _system_packages[ansible_os_family] }}"
     strongswan_letsencrypt_enable: false
-#    certbot_auto_renew_user: root
-#    certbot_certs:
-#      - email: janedoe@example.com
-#        domains:
-#          - vpn.example.com
+    certbot_auto_renew_user: root
+    certbot_certs:
+      - email: janedoe@example.com
+        domains:
+          - vpn.example.com
 
   pre_tasks:
-    - name: Update apt cache.
-      apt: update_cache=yes cache_valid_time=600
-      when: ansible_os_family == 'Debian'
-      changed_when: false
-
-#    - name: Install cron (RedHat).
-#      package: name="{{ item }}" state=present
-#      with_items:
-#        - cronie
-#        - git
-#      when: ansible_os_family == 'RedHat'
-
-#    - name: Install cron (Debian).
-#      package: name="{{ item }}" state=present
-#      with_items:
-#        - cron
-#        - git
-#      when: ansible_os_family == 'Debian'
+#    - name: Install system packages.
+#      action: >
+#        {{ ansible_pkg_mgr }} name={{ system_packages }} state=present update_cache=yes
 
     - name: "Include hybridadmin.strongswan role"
       include_role:
-#        name: "ansible-role-strongswan"
-        name: "hybridadmin.strongswan"
+        name: "ansible-role-strongswan"
+#        name: "hybridadmin.strongswan"

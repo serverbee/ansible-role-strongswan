@@ -7,7 +7,7 @@ Tested on:
 * CentOS 7 and 8
 * Debian 9 and 10
 
-This role uses a [strongswan swanctl conf-style syntax](https://wiki.strongswan.org/projects/strongswan/wiki/Swanctlconf) (referencing sections, since 5.7.0).
+This role uses a [swanctl.conf-style syntax](https://wiki.strongswan.org/projects/strongswan/wiki/Swanctlconf) (referencing sections, since 5.7.0).
 
 #### Variables
 
