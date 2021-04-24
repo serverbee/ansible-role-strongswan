@@ -6,7 +6,7 @@
 galaxy_info:
   role_name: strongswan
   author: hybridadmin
-  description: Role to configure StrongSwan IPSec VPN service.
+  description: Role to configure a strongSwan IPSec VPN server.
   company: "N/A"
   license: "license (BSD, MIT)"
   min_ansible_version: 2.9
@@ -27,6 +27,7 @@ galaxy_info:
     - vpn
     - ipsec
     - strongswan
+    - swanctl
     - ipsec
     - ikev2
     - letsencrypt

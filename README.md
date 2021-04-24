@@ -1,10 +1,13 @@
 ## StrongSwan role
 
-[![Build Status](https://travis-ci.com/hybridadmin/ansible-role-strongswan.svg?branch=master)](https://travis-ci.com/hybridadmin/ansible-role-strongswan) ![CI](https://github.com/hybridadmin/ansible-role-strongswan/workflows/CI/badge.svg?branch=master)
+[![CI](https://github.com/hybridadmin/ansible-role-strongswan/actions/workflows/build.yml/badge.svg?branch=master)](https://github.com/hybridadmin/ansible-role-strongswan/actions/workflows/build.yml)
 
-Tested on Ubuntu 18.04 and CentOS 7.
+Tested on:
+* Ubuntu 18.04 and 20.04
+* CentOS 7 and 8
+* Debian 9 and 10
 
-This role uses a [strongswan.conf-style syntax](https://wiki.strongswan.org/projects/strongswan/wiki/Swanctlconf) (referencing sections, since 5.7.0).
+This role uses a [strongswan swanctl conf-style syntax](https://wiki.strongswan.org/projects/strongswan/wiki/Swanctlconf) (referencing sections, since 5.7.0).
 
 #### Variables
 
