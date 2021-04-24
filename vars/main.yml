@@ -16,14 +16,16 @@ _build_package_list:
   default:
     - gcc
     - make
-    - pkg-config
+#    - file
   Debian:
     - libsystemd-dev
     - libgmp-dev
     - libcap-dev
     - libssl-dev
     - libsqlite3-dev
-    - libmysqlclient-dev
+    - default-libmysqlclient-dev
+    - procps
+    - pkg-config
   RedHat:
     - systemd-devel
     - gmp-devel
@@ -31,6 +33,8 @@ _build_package_list:
     - openssl-devel
     - sqlite-devel
     - mariadb-devel
+    - procps-ng
+#    - pkgconfig
 
 build_package_list: "{{ _build_package_list['default'] + _build_package_list[ansible_os_family] }}"
 
