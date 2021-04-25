@@ -1,63 +1,108 @@
 ---
 
-- name: "Create PKI directories"
-  file:
-    path: "{{ item }}"
-    state: directory
-    mode: "0755"
-  with_items:
-    - "{{ ansible_user_dir }}/pki/private"
-    - "{{ ansible_user_dir }}/pki/cacerts"
-    - "{{ ansible_user_dir }}/pki/certs"
+- block:
 
-- name: "Generate CA root key"
-  shell: |
-    set -o pipefail
-    ipsec pki --gen --type rsa --size 4096 --outform pem > {{ ansible_user_dir }}/pki/private/ca-key.pem
-  args:
-    executable: /bin/bash
-    creates: "{{ ansible_user_dir }}/pki/private/ca-key.pem"
+  - name: generate letsencrypt ssl certificate
+    include_role:
+      name: geerlingguy.certbot
 
-- name: "Create root certificate authority"
-  shell: |
-    set -o pipefail
-    ipsec pki --self --ca --lifetime 3650 --in {{ ansible_user_dir }}/pki/private/ca-key.pem --type rsa \
-    --dn "CN=VPN root CA" --outform pem > {{ ansible_user_dir }}/pki/cacerts/ca-cert.pem
-  args:
-    executable: /bin/bash
-    creates: "{{ ansible_user_dir }}/pki/cacerts/ca-cert.pem"
+  - name: Find a name of letsencrypt domain certificate directory
+    find:
+      paths: /etc/letsencrypt/live
+      recurse: false
+      file_type: directory
+    register: letsencrypt_found_dir
 
-- name: "Create VPN Server private key"
-  shell: |
-    set -o pipefail
-    ipsec pki --gen --type rsa --size 4096 --outform pem > {{ ansible_user_dir }}/pki/private/server-key.pem
-  args:
-    executable: /bin/bash
-    creates: "{{ ansible_user_dir }}/pki/private/server-key.pem"
+  - name: set letsencrypt facts
+    set_fact:
+      letsencrypt_domain_dir: "{{ letsencrypt_found_dir.files[0].path }}"
 
-- name: "Sign VPN server certificate"
-  shell: |
-    set -o pipefail
-    ipsec pki --pub --in {{ ansible_user_dir }}/pki/private/server-key.pem \
-       --type rsa | ipsec pki --issue --lifetime 1825 \
-            --cacert {{ ansible_user_dir }}/pki/cacerts/ca-cert.pem \
-            --cakey {{ ansible_user_dir }}/pki/private/ca-key.pem \
-            --dn "CN={{ ansible_default_ipv4.address|default(ansible_all_ipv4_addresses[0]) }}" \
-            --san "{{ ansible_default_ipv4.address|default(ansible_all_ipv4_addresses[0]) }}" \
-            --flag serverAuth --flag ikeIntermediate --outform pem \
-        >  {{ ansible_user_dir }}/pki/certs/server-cert.pem
-  args:
-    executable: /bin/bash
-    creates: "{{ ansible_user_dir }}/pki/certs/server-cert.pem"
+  - name: Check if letsencrypt certificate already exists
+    stat:
+      path: "{{ letsencrypt_domain_dir }}/cert.pem"
+    register: letsencrypt_cert
 
-- name: Symlink PKI certificates
-  file:
-    src: "{{ item.src }}"
-    dest: "{{ item.dest }}"
-    owner: root
-    group: root
-    state: link
-  with_items:
-    - { src: "{{ ansible_user_dir }}/pki/private/server-key.pem", dest: "/etc/swanctl/private/server-key.pem" }
-    - { src: "{{ ansible_user_dir }}/pki/certs/server-cert.pem", dest: "/etc/swanctl/x509/cert.pem" }
-    - { src: "{{ ansible_user_dir }}/pki/cacerts/ca-cert.pem", dest: "/etc/swanctl/x509ca/ca-cert.pem" }
+  - name: Create symlinks for letsencrypt certificate
+    file:
+      src: "{{ item.src }}"
+      dest: "{{ item.dest }}"
+      state: link
+    with_items:
+      - src: { "{{ letsencrypt_domain_dir }}/chain.pem", dest: "{{ strongswan_swanctl_config_dir }}/x509ca/ca-cert.pem" }
+      - src: { "{{ letsencrypt_domain_dir }}/fullchain.pem", dest: "{{ strongswan_swanctl_config_dir }}/x509/cert.pem" }
+      - src: { "{{ letsencrypt_domain_dir }}/privkey.pem", dest: "{{ strongswan_swanctl_config_dir }}/private/server-key.pem" }
+    when: letsencrypt_cert.stat.exists
+
+  - name: fail due to missing letsencrypt certificate
+    fail:
+      msg: "Error: letsencrypt certificate doesn't exists. Please check your
+           certificate configuration !"
+    when: not letsencrypt_cert.stat.exists
+
+  when: strongswan_letsencrypt_enable | bool
+
+- block:
+
+  - name: "Create PKI directories"
+    file:
+      path: "{{ item }}"
+      state: directory
+      mode: "0755"
+    with_items:
+      - "{{ ansible_user_dir }}/pki/private"
+      - "{{ ansible_user_dir }}/pki/cacerts"
+      - "{{ ansible_user_dir }}/pki/certs"
+
+  - name: "Generate CA root key"
+    shell: |
+      set -o pipefail
+      ipsec pki --gen --type rsa --size 4096 --outform pem > {{ ansible_user_dir }}/pki/private/ca-key.pem
+    args:
+      executable: /bin/bash
+      creates: "{{ ansible_user_dir }}/pki/private/ca-key.pem"
+
+  - name: "Create root certificate authority"
+    shell: |
+      set -o pipefail
+      ipsec pki --self --ca --lifetime 3650 --in {{ ansible_user_dir }}/pki/private/ca-key.pem --type rsa \
+      --dn "CN=VPN root CA" --outform pem > {{ ansible_user_dir }}/pki/cacerts/ca-cert.pem
+    args:
+      executable: /bin/bash
+      creates: "{{ ansible_user_dir }}/pki/cacerts/ca-cert.pem"
+
+  - name: "Create VPN Server private key"
+    shell: |
+      set -o pipefail
+      ipsec pki --gen --type rsa --size 4096 --outform pem > {{ ansible_user_dir }}/pki/private/server-key.pem
+    args:
+      executable: /bin/bash
+      creates: "{{ ansible_user_dir }}/pki/private/server-key.pem"
+
+  - name: "Sign VPN server certificate"
+    shell: |
+      set -o pipefail
+      ipsec pki --pub --in {{ ansible_user_dir }}/pki/private/server-key.pem \
+         --type rsa | ipsec pki --issue --lifetime 1825 \
+              --cacert {{ ansible_user_dir }}/pki/cacerts/ca-cert.pem \
+              --cakey {{ ansible_user_dir }}/pki/private/ca-key.pem \
+              --dn "CN={{ ansible_default_ipv4.address|default(ansible_all_ipv4_addresses[0]) }}" \
+              --san "{{ ansible_default_ipv4.address|default(ansible_all_ipv4_addresses[0]) }}" \
+              --flag serverAuth --flag ikeIntermediate --outform pem \
+          >  {{ ansible_user_dir }}/pki/certs/server-cert.pem
+    args:
+      executable: /bin/bash
+      creates: "{{ ansible_user_dir }}/pki/certs/server-cert.pem"
+
+  - name: Symlink PKI certificates
+    file:
+      src: "{{ item.src }}"
+      dest: "{{ item.dest }}"
+      owner: root
+      group: root
+      state: link
+    with_items:
+      - { src: "{{ ansible_user_dir }}/pki/private/server-key.pem", dest: "/etc/swanctl/private/server-key.pem" }
+      - { src: "{{ ansible_user_dir }}/pki/certs/server-cert.pem", dest: "/etc/swanctl/x509/cert.pem" }
+      - { src: "{{ ansible_user_dir }}/pki/cacerts/ca-cert.pem", dest: "/etc/swanctl/x509ca/ca-cert.pem" }
+
+  when: not strongswan_letsencrypt_enable | bool

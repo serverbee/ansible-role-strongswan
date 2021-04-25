@@ -26,5 +26,5 @@
 
     - name: "Include hybridadmin.strongswan role"
       include_role:
-        name: "ansible-role-strongswan"
-#        name: "hybridadmin.strongswan"
+#        name: "ansible-role-strongswan"
+        name: "hybridadmin.strongswan"

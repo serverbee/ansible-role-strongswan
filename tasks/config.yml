@@ -20,45 +20,6 @@
 
   when: ansible_os_family == "Debian" and not skip_apparmor_selinux
 
-- block:
-  - name: Find a name of letsencrypt domain certificate directory
-    find:
-      paths: /etc/letsencrypt/live
-      recurse: false
-      file_type: directory
-    register: letsencrypt_found_dir
-
-  - name: set letsencrypt facts
-    set_fact:
-      letsencrypt_domain_dir: "{{ letsencrypt_found_dir.files[0].path }}"
-
-  - name: Check if letsencrypt certificate already exists
-    stat:
-      path: "{{ letsencrypt_domain_dir }}/cert.pem"
-    register: letsencrypt_cert
-
-  - name: Create symlinks for letsencrypt certificate
-    file:
-      src: "{{ item.src }}"
-      dest: "{{ item.dest }}"
-      state: link
-    with_items:
-      - src: "{{ letsencrypt_domain_dir }}/chain.pem"
-        dest: "{{ strongswan_swanctl_config_dir }}/x509ca/ca-cert.pem"
-      - src: "{{ letsencrypt_domain_dir }}/fullchain.pem"
-        dest: "{{ strongswan_swanctl_config_dir }}/x509/Cert.pem"
-      - src: "{{ letsencrypt_domain_dir }}/privkey.pem"
-        dest: "{{ strongswan_swanctl_config_dir }}/private/Key.pem"
-    when: letsencrypt_cert.stat.exists
-
-  - name: fail due to missing letsencrypt certificate
-    fail:
-      msg: "Error: letsencrypt certificate doesn't exists. Please check your
-           certificate configuration !"
-    when: not letsencrypt_cert.stat.exists
-
-  when: strongswan_letsencrypt_enable
-
 - name: Configure Strongswan strongswan.conf
   template:
     src: strongswan.conf.j2
