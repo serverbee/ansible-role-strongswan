@@ -34,7 +34,7 @@ This role uses a [swanctl.conf-style syntax](https://wiki.strongswan.org/project
 ### Host vars for StrongSwan Server:
 
 ```yaml
-# Enable variable bellow only for first certificate generating
+# Enable variable below only for first certificate generating
 certbot_create_if_missing: yes
 
 certbot_certs:
@@ -106,10 +106,27 @@ strongswan_swanctl_settings:
 
 ## Playbook Examples
 
-### StrongSwan server playbook:
+
+### StrongSwan server with PKI certificates playbook:
 
 ```yaml
 - hosts: server
+  vars:
+    strongswan_letsencrypt_enable: false
+  roles:
+    - hybridadmin.strongswan
+```
+
+### StrongSwan server with Letsencrypt certificates playbook:
+
+```yaml
+- hosts: server
+  vars:
+    strongswan_letsencrypt_enable: true
+    certbot_certs:
+      - email: janedoe@example.com
+        domains:
+          - vpn.example.com
   roles:
     - hybridadmin.strongswan
 ```
