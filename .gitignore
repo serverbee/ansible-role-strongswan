@@ -1,1 +1,6 @@
-.cache*
+.molecule
+*.log
+*.swp
+.tox
+*.*~
+.cache

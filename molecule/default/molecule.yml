@@ -6,7 +6,7 @@ dependency:
 lint: |
   set -e
   yamllint .
-  ansible-lint
+  ansible-lint .
 driver:
   name: docker
 platforms:
