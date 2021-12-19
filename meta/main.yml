@@ -1,5 +1,4 @@
 ---
-
 #dependencies:
 #  - { role: geerlingguy.certbot, when: strongswan_letsencrypt_enable and not strongswan_client }
 

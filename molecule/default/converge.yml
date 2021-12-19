@@ -4,6 +4,7 @@
   become: true
 
   vars:
+    strongswan_version: 5.9.4
     _system_packages:
       default:
         - git

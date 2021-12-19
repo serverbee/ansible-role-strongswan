@@ -1,5 +1,4 @@
 ---
-
 - name: Copy certificate from server to localhost
   fetch:
     src: "{{ item }}"

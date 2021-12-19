@@ -1,5 +1,4 @@
 ---
-
 - name: Restart server
   shell: sleep 2 && shutdown -r now
   async: 1

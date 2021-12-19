@@ -3,6 +3,6 @@
   hosts: all
 
   tasks:
-  - name: View connections
-    command: swanctl --list-conns
-    changed_when: false
+    - name: View connections
+      command: swanctl --list-conns
+      changed_when: false

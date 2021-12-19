@@ -1,10 +1,9 @@
 ---
-
 - name: Install required build packages
   action: >
     {{ ansible_pkg_mgr }} name={{ build_package_list }} state=present update_cache=yes
-#    vars:
-#      packages: "{{ build_package_list }}"
+  #    vars:
+  #      packages: "{{ build_package_list }}"
   when: build_package_list is defined
 
 - name: "download archive strongswan-{{ strongswan_version }}.tar.gz"
@@ -31,7 +30,7 @@
 - name: "create user {{ strongswan_usr }}"
   user:
     name: "{{ strongswan_usr }}"
-#    home: "{{ strongswan_lib_dir }}"
+    #    home: "{{ strongswan_lib_dir }}"
     comment: "strongSwan IPsec IKEv1/IKEv2 daemon user"
     group: strongswan
     system: yes

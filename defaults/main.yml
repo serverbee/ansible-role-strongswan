@@ -1,6 +1,5 @@
 ---
-
-strongswan_version:  5.9.2
+strongswan_version: 5.9.2
 
 strongswan_letsencrypt_enable: true
 strongswan_firewalld_enable: false
@@ -39,7 +38,7 @@ strongswan_swanctl_settings:
   connections:
     ikev2-eap:
       version: 2
-      rekey_time:  0s
+      rekey_time: 0s
       encap: yes
       pools: primary-pool-ipv4
       dpd_delay: 30s

@@ -1,8 +1,7 @@
 ---
-
 strongswan_usr: strongswan
 strongswan_grp: strongswan
-strongswan_build_cmd: ' --prefix=/usr --sysconfdir=/etc --enable-systemd --enable-swanctl --with-capabilities=libcap --enable-openssl --enable-sqlite --enable-mysql'
+strongswan_build_cmd: " --prefix=/usr --sysconfdir=/etc --enable-systemd --enable-swanctl --with-capabilities=libcap --enable-openssl --enable-sqlite --enable-mysql"
 strongswan_temporary_directory: /tmp
 
 strongswan_swanctl_root_dir: "/etc/swanctl"
@@ -37,7 +36,9 @@ _build_package_list:
 build_package_list: "{{ _build_package_list['default'] + _build_package_list[ansible_os_family] }}"
 
 letsencrypt_ssl_certs:
-  - { fqdn: "{{ vpn_hostname }}",
-    privkey: "/etc/letsencrypt/live/{{ vpn_hostname }}/privkey.pem",
-    cert: "/etc/letsencrypt/live/{{ vpn_hostname }}/cert.pem",
-    chain: "/etc/letsencrypt/live/{{ vpn_hostname }}/chain.pem" }
+  - {
+      fqdn: "{{ vpn_hostname }}",
+      privkey: "/etc/letsencrypt/live/{{ vpn_hostname }}/privkey.pem",
+      cert: "/etc/letsencrypt/live/{{ vpn_hostname }}/cert.pem",
+      chain: "/etc/letsencrypt/live/{{ vpn_hostname }}/chain.pem",
+    }

@@ -3,9 +3,10 @@
 [![CI](https://github.com/hybridadmin/ansible-role-strongswan/actions/workflows/build.yml/badge.svg?branch=master)](https://github.com/hybridadmin/ansible-role-strongswan/actions/workflows/build.yml)
 
 Tested on:
-* Ubuntu 18.04 and 20.04
-* CentOS 7 and 8
-* Debian 9 and 10
+
+- Ubuntu 18.04 and 20.04
+- CentOS 7 and 8
+- Debian 9 and 10
 
 This role uses a [swanctl.conf-style syntax](https://wiki.strongswan.org/projects/strongswan/wiki/Swanctlconf) (referencing sections, since 5.7.0).
 
@@ -13,21 +14,21 @@ This role uses a [swanctl.conf-style syntax](https://wiki.strongswan.org/project
 
 ##### General
 
-* `strongswan_swanctl_settings`: [required]: Set all settings for swanctl.conf
+- `strongswan_swanctl_settings`: [required]: Set all settings for swanctl.conf
 
 ##### StrongSwan (server|clients) settings:
 
-* `strongswan_swanctl_config_dir`: [optional, default: `/etc/strongswan/swanctl`]: Directory which contains StrongSwan swanctl.conf
-* `strongswan_swanctl_config_file`: [optional, default: `{{ strongswan_swanctl_config_dir }}/swanctl.conf`]: The name of StrongSwan swanctl configuration file
-* `strongswan_letsencrypt_enable`: [optional, default: `true`]: Prepare StrongSwan server certificate with Let'sEncrypt
-* `strongswan_firewalld_enable`: [optional, default `true`]: Set all needed firewall rules for StrongSwan server
-* `strongswan_client`: [optional, default `false`]: Install and configure StrongSwan on clients
-* `strongswan_download_cert`: [optional, default `false`]: Download StrongSwan certificate from server host. Should be used with `strongswan_letsencrypt_enable` = `true`
-* `strongswan_upload_cert`: [optional, default `false`]: Upload StrongSwan certificate to clients. Should be used with `strongswan_letsencrypt_enable` = `true`
+- `strongswan_swanctl_config_dir`: [optional, default: `/etc/strongswan/swanctl`]: Directory which contains StrongSwan swanctl.conf
+- `strongswan_swanctl_config_file`: [optional, default: `{{ strongswan_swanctl_config_dir }}/swanctl.conf`]: The name of StrongSwan swanctl configuration file
+- `strongswan_letsencrypt_enable`: [optional, default: `true`]: Prepare StrongSwan server certificate with Let'sEncrypt
+- `strongswan_firewalld_enable`: [optional, default `true`]: Set all needed firewall rules for StrongSwan server
+- `strongswan_client`: [optional, default `false`]: Install and configure StrongSwan on clients
+- `strongswan_download_cert`: [optional, default `false`]: Download StrongSwan certificate from server host. Should be used with `strongswan_letsencrypt_enable` = `true`
+- `strongswan_upload_cert`: [optional, default `false`]: Upload StrongSwan certificate to clients. Should be used with `strongswan_letsencrypt_enable` = `true`
 
 ## Dependencies
 
- - geerlingguy.certbot
+- geerlingguy.certbot
 
 ## Variables
 
@@ -38,9 +39,9 @@ This role uses a [swanctl.conf-style syntax](https://wiki.strongswan.org/project
 certbot_create_if_missing: yes
 
 certbot_certs:
- - email: email@example.com
-   domains:
-     - "{{ inventory_hostname }}"
+  - email: email@example.com
+    domains:
+      - "{{ inventory_hostname }}"
 
 certbot_create_standalone_stop_services: []
 ```
@@ -80,6 +81,7 @@ strongswan_swanctl_settings:
 ```
 
 ### Host vars for carol.strongswan.org:
+
 ```yaml
 strongswan_swanctl_settings:
   connections:
@@ -105,7 +107,6 @@ strongswan_swanctl_settings:
 ```
 
 ## Playbook Examples
-
 
 ### StrongSwan server with PKI certificates playbook:
 
@@ -151,6 +152,7 @@ strongswan_swanctl_settings:
 ```
 
 #### Todo
+
 1. Remove some dependencies roles to achieve more flexibility.
 
 #### License
