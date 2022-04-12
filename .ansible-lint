@@ -1,5 +1,9 @@
-warn_list:
+skip_list:
+  - skip_ansible_lint
   - '106'
   - '208'
-  - syntax-check  # Ansible syntax check failed
-  - no-handler
+  - '702'
+  - fqcn-builtins
+
+warn_list:  # or 'skip_list' to silence them completely
+  - internal-error  # Unexpected internal error.
