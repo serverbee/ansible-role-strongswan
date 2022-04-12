@@ -12,9 +12,11 @@
 - block:
     - name: apparmor | apply charon fix
       command: apparmor_parser -R /etc/apparmor.d/usr.lib.ipsec.charon
+      changed_when: false
 
     - name: apparmor | apply stroke fix
       command: apparmor_parser -R /etc/apparmor.d/usr.lib.ipsec.stroke
+      changed_when: false
 
   when: ansible_os_family == "Debian" and not skip_apparmor_selinux
 
