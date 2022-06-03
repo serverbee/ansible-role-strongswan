@@ -1,0 +1,3 @@
+# {{ ansible_managed }}
+# {{ strongswan_conf_file }} - StrongSwan configuration file
+{{ strongswan_settings | to_nice_json | replace(':', ' =') | replace('"', '') | replace('= {', '{') | regex_replace('^{', '') | regex_replace('}$', '') |  regex_replace(',\n', '\n') | replace('inc =', '') }}

@@ -1,13 +1,66 @@
 ---
-
-strongswan_swanctl_config_dir: /etc/strongswan/swanctl
-strongswan_swanctl_config_file:  "{{ strongswan_swanctl_config_dir }}/swanctl.conf"
+strongswan_version: 5.9.2
 
 strongswan_letsencrypt_enable: true
-strongswan_firewalld_enable: true
+strongswan_firewalld_enable: false
 strongswan_client: false
 
 strongswan_download_cert: false
 strongswan_upload_cert: false
 
-strongswan_swanctl_settings: {}
+strongswan_settings:
+  swanctl:
+    load: pem pkcs1 x509 revocation constraints pubkey openssl random
+  charon:
+    load_modular: "yes"
+    fragment_size: 1400
+    user: "strongswan"
+    group: "strongswan"
+    dns1: 1.1.1.1
+    dns2: 9.9.9.9
+    start-scripts:
+      creds: /usr/sbin/swanctl --load-creds
+      conns: /usr/sbin/swanctl --load-conns
+      pools: /usr/sbin/swanctl --load-pools
+    filelog:
+      charon:
+        path: "/var/log/charon.log"
+        time_format: "%b %e %T"
+        ike_name: yes
+        append: no
+        default: 2
+        flush_line: yes
+      stderr:
+        ike: 2
+        knl: 3
+
+strongswan_swanctl_settings:
+  connections:
+    ikev2-eap:
+      version: 2
+      rekey_time: 0s
+      encap: yes
+      pools: primary-pool-ipv4
+      dpd_delay: 30s
+      local-1:
+        certs: cert.pem
+        id: myid
+      remote-1:
+        auth: eap-dynamic
+        eap_id: "%any"
+      children:
+        ikev2-eap:
+          local_ts: 0.0.0.0/0,::/0
+          rekey_time: 0s
+          dpd_action: clear
+  pools:
+    primary-pool-ipv4:
+      addrs: 192.168.252.0/24
+  secrets:
+    eap-user:
+      id: user
+      secret: Ar3e73tTnp02
+
+sysctl_conf_file: "/etc/sysctl.d/60-strongswan.conf"
+iptables_nat_fix: false
+skip_apparmor_selinux: true

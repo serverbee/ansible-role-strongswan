@@ -1,10 +1,9 @@
 ---
-
 - name: Copy certificate from server to localhost
   fetch:
     src: "{{ item }}"
     dest: certs/
-    flat: yes
+    flat: true
   with_items:
-    - "{{ strongswan_swanctl_config_dir }}/x509ca/strongswanCert.pem"
-    - "{{ strongswan_swanctl_config_dir }}/x509/Cert.pem"
+    - "{{ strongswan_swanctl_config_dir }}/x509ca/ca-cert.pem"
+    - "{{ strongswan_swanctl_config_dir }}/x509/cert.pem"

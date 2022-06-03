@@ -1,0 +1,30 @@
+---
+- name: Converge
+  hosts: all
+  become: true
+
+  vars:
+    strongswan_version: 5.9.4
+    _system_packages:
+      default:
+        - git
+      Debian:
+        - cron
+      RedHat:
+        - cronie
+    system_packages: "{{ _system_packages['default'] + _system_packages[ansible_os_family] }}"
+    strongswan_letsencrypt_enable: false
+    certbot_certs:
+      - email: janedoe@example.com
+        domains:
+          - vpn.example.com
+
+  pre_tasks:
+    - name: Install system packages.
+      action: >
+        {{ ansible_pkg_mgr }} name={{ system_packages }} state=present update_cache=yes
+      when: strongswan_letsencrypt_enable | bool
+
+    - name: "Include hybridadmin.strongswan role"
+      include_role:
+        name: "hybridadmin.strongswan"

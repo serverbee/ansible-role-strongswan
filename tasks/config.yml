@@ -1,59 +1,60 @@
 ---
+- block:
+    - name: Change to permissive value for SELinux
+      selinux:
+        policy: targeted
+        state: permissive
+      notify:
+        - reboot
 
-- name: Change to permissive value for SELinux
-  selinux:
-    policy: targeted
-    state: permissive
-  notify:
-    - reboot
+  when: ansible_os_family == "RedHat" and not skip_apparmor_selinux
 
 - block:
-  - name: Find a name of letsencrypt domain certificate directory
-    find:
-      paths: /etc/letsencrypt/live
-      recurse: no
-      file_type: directory
-    register: letsencrypt_found_dir
+    - name: apparmor | apply charon fix
+      command: apparmor_parser -R /etc/apparmor.d/usr.lib.ipsec.charon
+      changed_when: false
 
-  - set_fact:
-      letsencrypt_domain_dir: "{{ letsencrypt_found_dir.files[0].path }}"
+    - name: apparmor | apply stroke fix
+      command: apparmor_parser -R /etc/apparmor.d/usr.lib.ipsec.stroke
+      changed_when: false
 
-  - name: Check if letsencrypt certificate already exists
-    stat:
-      path: "{{ letsencrypt_domain_dir }}/cert.pem"
-    register: letsencrypt_cert
-   
-  - name: Create symlinks for letsencrypt certificate
-    file:
-      src: "{{ item.src }}"
-      dest: "{{ item.dest }}"
-      state: link
-    with_items:
-      - { src: "{{ letsencrypt_domain_dir }}/chain.pem", dest: "{{ strongswan_swanctl_config_dir }}/x509ca/strongswanCert.pem" }
-      - { src: "{{ letsencrypt_domain_dir }}/fullchain.pem", dest: "{{ strongswan_swanctl_config_dir }}/x509/Cert.pem" }
-      - { src: "{{ letsencrypt_domain_dir }}/privkey.pem", dest: "{{ strongswan_swanctl_config_dir }}/private/Key.pem" }
-    when: letsencrypt_cert.stat.exists
+  when: ansible_os_family == "Debian" and not skip_apparmor_selinux
 
-  - fail:
-      msg: "Error: letsencrypt certificate doesn't exists. Please check your certificate configuration !"
-    when: not letsencrypt_cert.stat.exists
-
-  when: strongswan_letsencrypt_enable
+- name: Configure Strongswan strongswan.conf
+  template:
+    src: strongswan.conf.j2
+    dest: "{{ strongswan_conf_file }}"
+    owner: root
+    group: root
+    mode: 0644
+  when: strongswan_settings is defined
 
 - name: Configure Strongswan swanctl.conf
   template:
-    src: etc/strongswan/swanctl/swanctl.conf.j2
+    src: swanctl.conf.j2
     dest: "{{ strongswan_swanctl_config_file }}"
     owner: root
     group: root
     mode: 0644
-  notify: swanctl restart
+  notify:
+    - swanctl restart
+
+- name: Configure forwarding sysctl
+  template:
+    src: sysctl-conf.j2
+    dest: "{{ sysctl_conf_file }}"
+    owner: root
+    group: root
+    mode: 0644
+  notify:
+    - sysctl reload
 
 - name: Ensure Strongswan service is enabled and started
   systemd:
-    name: strongswan-swanctl.service
+    name: "{{ strongswan_swanctl_svc }}"
     state: started
     enabled: yes
+    daemon_reload: yes
 
 # It's workaround until direct option will be added to firewalld ansible module
 # https://github.com/ansible/ansible/pull/49514
@@ -61,4 +62,6 @@
   shell: |
     /usr/sbin/iptables -t nat -D POSTROUTING -m policy --pol ipsec --dir out -j ACCEPT
     /usr/sbin/iptables -t nat -I POSTROUTING -m policy --pol ipsec --dir out -j ACCEPT
-  when: not strongswan_client
+  when:
+    - not strongswan_client
+    - iptables_nat_fix
