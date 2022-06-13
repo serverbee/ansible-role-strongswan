@@ -4,7 +4,7 @@
 
 galaxy_info:
   role_name: strongswan
-  author: hybridadmin
+  author: "mr-yaky, hybridadmin"
   description: Role to configure a strongSwan IPSec VPN server.
   company: "N/A"
   license: "license (BSD, MIT)"

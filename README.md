@@ -115,7 +115,7 @@ strongswan_swanctl_settings:
   vars:
     strongswan_letsencrypt_enable: false
   roles:
-    - hybridadmin.strongswan
+    - serverbee.strongswan
 ```
 
 ### StrongSwan server with Letsencrypt certificates playbook:
@@ -129,7 +129,7 @@ strongswan_swanctl_settings:
         domains:
           - vpn.example.com
   roles:
-    - hybridadmin.strongswan
+    - serverbee.strongswan
 ```
 
 ### StrongSwan clients playbook:
@@ -138,7 +138,7 @@ strongswan_swanctl_settings:
 - hosts:
     - server
   roles:
-    - hybridadmin.strongswan
+    - serverbee.strongswan
   vars:
     strongswan_client: true
     strongswan_download_cert: true
@@ -146,7 +146,7 @@ strongswan_swanctl_settings:
 - hosts:
     - clients
   roles:
-    - hybridadmin.strongswan
+    - serverbee.strongswan
   vars:
     strongswan_upload_cert: true
 ```
@@ -159,6 +159,7 @@ strongswan_swanctl_settings:
 
 BSD 2-clause "Simplified" license
 
-#### Author Information
+#### Authors Information
 
+Vitaly Yakovenko  
 hybridadmin
