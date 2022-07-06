@@ -1,42 +1,50 @@
 ---
-- name: Install required build packages
-  action: >
-    {{ ansible_pkg_mgr }} name={{ build_package_list }} state=present update_cache=yes
-  #    vars:
-  #      packages: "{{ build_package_list }}"
-  when: build_package_list is defined
+- block:
+  - name: Install required build packages
+    action: >
+      {{ ansible_pkg_mgr }} name={{ build_package_list }} state=present update_cache=yes
+    #    vars:
+    #      packages: "{{ build_package_list }}"
+    when: build_package_list is defined
 
-- name: "download archive strongswan-{{ strongswan_version }}.tar.gz"
-  unarchive:
-    src: "https://download.strongswan.org/strongswan-{{ strongswan_version }}.tar.gz"
-    dest: "{{ strongswan_temporary_directory }}"
-    list_files: yes
-    remote_src: yes
-    creates: "{{ strongswan_temporary_directory }}/strongswan-{{ strongswan_version }}"
-  register: strongswan_download_archive
-  until: strongswan_download_archive is succeeded
-  retries: 3
-  notify:
-    - configure
-    - make
-    - make install
+  - name: "download archive strongswan-{{ strongswan_from_source_version }}.tar.gz"
+    unarchive:
+      src: "https://download.strongswan.org/strongswan-{{ strongswan_from_source_version }}.tar.gz"
+      dest: "{{ strongswan_temporary_directory }}"
+      list_files: yes
+      remote_src: yes
+      creates: "{{ strongswan_temporary_directory }}/strongswan-{{ strongswan_from_source_version }}"
+    register: strongswan_download_archive
+    until: strongswan_download_archive is succeeded
+    retries: 3
+    notify:
+      - configure
+      - make
+      - make install
 
-- name: "create group {{ strongswan_grp }}"
-  group:
-    name: "{{ strongswan_grp }}"
-    system: yes
-    gid: 88
+  - name: "create group {{ strongswan_grp }}"
+    group:
+      name: "{{ strongswan_grp }}"
+      system: yes
+      gid: 88
 
-- name: "create user {{ strongswan_usr }}"
-  user:
-    name: "{{ strongswan_usr }}"
-    #    home: "{{ strongswan_lib_dir }}"
-    comment: "strongSwan IPsec IKEv1/IKEv2 daemon user"
-    group: strongswan
-    system: yes
-    uid: 88
-    shell: /bin/false
-  changed_when: false
+  - name: "create user {{ strongswan_usr }}"
+    user:
+      name: "{{ strongswan_usr }}"
+      #    home: "{{ strongswan_lib_dir }}"
+      comment: "strongSwan IPsec IKEv1/IKEv2 daemon user"
+      group: strongswan
+      system: yes
+      uid: 88
+      shell: /bin/false
+    changed_when: false
+  when: strongswan_install_from_source | bool
+
+- name: Install from distro packages
+  package:
+    name: strongswan
+    state: present
+  when: not strongswan_install_from_source | bool
 
 - name: flush handlers
   meta: flush_handlers

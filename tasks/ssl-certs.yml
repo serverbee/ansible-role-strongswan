@@ -123,4 +123,6 @@
             dest: "/etc/swanctl/x509ca/ca-cert.pem",
           }
 
-  when: not strongswan_letsencrypt_enable | bool
+  when:
+    - not strongswan_letsencrypt_enable | bool
+    - strongswan_generate_pki | bool

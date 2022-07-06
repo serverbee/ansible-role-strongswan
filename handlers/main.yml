@@ -13,16 +13,16 @@
 - name: configure
   command: ./configure {{ strongswan_build_cmd }}
   args:
-    chdir: "{{ strongswan_temporary_directory }}/strongswan-{{ strongswan_version }}"
-    creates: "{{ strongswan_temporary_directory }}/strongswan-{{ strongswan_version }}/Makefile"
+    chdir: "{{ strongswan_temporary_directory }}/strongswan-{{ strongswan_from_source_version }}"
+    creates: "{{ strongswan_temporary_directory }}/strongswan-{{ strongswan_from_source_version }}/Makefile"
 
 - name: make
   make:
-    chdir: "{{ strongswan_temporary_directory }}/strongswan-{{ strongswan_version }}"
+    chdir: "{{ strongswan_temporary_directory }}/strongswan-{{ strongswan_from_source_version }}"
 
 - name: make install
   make:
-    chdir: "{{ strongswan_temporary_directory }}/strongswan-{{ strongswan_version }}"
+    chdir: "{{ strongswan_temporary_directory }}/strongswan-{{ strongswan_from_source_version }}"
     target: install
 
 - name: systemctl daemon-reload

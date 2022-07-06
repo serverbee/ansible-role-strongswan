@@ -1,12 +1,20 @@
 ---
-strongswan_version: 5.9.2
+strongswan_install_from_source: false
+strongswan_from_source_version: 5.9.2
 
 strongswan_letsencrypt_enable: true
+strongswan_generate_pki: false
 strongswan_firewalld_enable: false
 strongswan_client: false
 
 strongswan_download_cert: false
 strongswan_upload_cert: false
+
+strongswan_swanctl_root_dir: "/etc/swanctl"
+strongswan_swanctl_config_dir: "/etc/swanctl/conf.d"
+strongswan_swanctl_svc: "strongswan.service"
+strongswan_conf_file: "/etc/strongswan.d/01-strongswan.conf"
+strongswan_swanctl_config_file: "{{ strongswan_swanctl_config_dir }}/swanctl.conf"
 
 strongswan_settings:
   swanctl:
@@ -61,6 +69,7 @@ strongswan_swanctl_settings:
       id: user
       secret: Ar3e73tTnp02
 
+sysctl_tune: false
 sysctl_conf_file: "/etc/sysctl.d/60-strongswan.conf"
 iptables_nat_fix: false
 skip_apparmor_selinux: true

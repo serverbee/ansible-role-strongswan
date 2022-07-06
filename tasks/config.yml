@@ -48,6 +48,7 @@
     mode: 0644
   notify:
     - sysctl reload
+  when: sysctl_tune|bool
 
 - name: Ensure Strongswan service is enabled and started
   systemd:
